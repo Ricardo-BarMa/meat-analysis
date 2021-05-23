@@ -1,0 +1,16 @@
+---
+title: "Analysis"
+author: "Ricardo David Barragan Martinez"
+date: "5/23/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(readr)
+animals_slaughtered_for_meat <- read_csv("archive (5)/animals-slaughtered-for-meat.csv")
+```
+
+```{r}
+summary(animals_slaughtered_for_meat)
+```
+
