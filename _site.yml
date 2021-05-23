@@ -1,8 +1,8 @@
-name: "My new website"
+name: "Meat analysis"
 output_dir: 'docs'
 output:
   html_document:
-    theme: cerulean
+    theme: cosmo
     highlight: zenburn
     toc: true
     toc_depth: 2
