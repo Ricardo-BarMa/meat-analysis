@@ -1,6 +1,6 @@
 ---
 title: "Analysis"
-author: "Ricardo David Barragan Martinez"
+author: "Jumoke Ajakaiye and Ricardo David Barragan Martinez"
 date: "5/23/2021"
 output: html_document
 ---
