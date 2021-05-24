@@ -45,100 +45,6 @@
     </style>
 
 
-<style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
-</style>
-<style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  { color: #cccccc; background-color: #303030; }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ffcfaf; } /* Alert */
-code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
-code span.at { } /* Attribute */
-code span.bn { color: #dca3a3; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #f0dfaf; } /* ControlFlow */
-code span.ch { color: #dca3a3; } /* Char */
-code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
-code span.co { color: #7f9f7f; } /* Comment */
-code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
-code span.do { color: #7f9f7f; } /* Documentation */
-code span.dt { color: #dfdfbf; } /* DataType */
-code span.dv { color: #dcdccc; } /* DecVal */
-code span.er { color: #c3bf9f; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #c0bed1; } /* Float */
-code span.fu { color: #efef8f; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
-code span.kw { color: #f0dfaf; } /* Keyword */
-code span.op { color: #f0efd0; } /* Operator */
-code span.ot { color: #efef8f; } /* Other */
-code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
-code span.sc { color: #dca3a3; } /* SpecialChar */
-code span.ss { color: #cc9393; } /* SpecialString */
-code span.st { color: #cc9393; } /* String */
-code span.va { } /* Variable */
-code span.vs { color: #cc9393; } /* VerbatimString */
-code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
-
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 
 
 
@@ -446,39 +352,126 @@ div.tocify {
 </div>
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(animals_slaughtered_for_meat)</span></code></pre></div>
-<pre><code>##     Entity              Code                Year     
-##  Length:13537       Length:13537       Min.   :1961  
-##  Class :character   Class :character   1st Qu.:1976  
-##  Mode  :character   Mode  :character   Median :1991  
-##                                        Mean   :1990  
-##                                        3rd Qu.:2005  
-##                                        Max.   :2018  
-##                                                      
-##  Cattle (cattle slaughtered) Goats (goats slaughtered)
-##  Min.   :        0           Min.   :        0        
-##  1st Qu.:    18000           1st Qu.:    15000        
-##  Median :   298306           Median :   192000        
-##  Mean   :  5015114           Mean   :  6305828        
-##  3rd Qu.:  1723775           3rd Qu.:  1450000        
-##  Max.   :302150272           Max.   :479137283        
-##  NA&#39;s   :367                 NA&#39;s   :1607             
-##  Chicken (chicken slaughtered) Turkey (turkeys slaughtered)
-##  Min.   :0.000e+00             Min.   :        0           
-##  1st Qu.:2.500e+06             1st Qu.:   149000           
-##  Median :2.257e+07             Median :  1002000           
-##  Mean   :5.916e+08             Mean   : 21980054           
-##  3rd Qu.:1.727e+08             3rd Qu.:  6879250           
-##  Max.   :6.879e+10             Max.   :670019000           
-##  NA&#39;s   :319                   NA&#39;s   :8275                
-##  Pigs (pigs slaughtered) Sheep (sheeps slaughtered)
-##  Min.   :0.000e+00       Min.   :        0         
-##  1st Qu.:2.504e+04       1st Qu.:    18506         
-##  Median :2.910e+05       Median :   360000         
-##  Mean   :1.902e+07       Mean   :  9873200         
-##  3rd Qu.:4.141e+06       3rd Qu.:  4000000         
-##  Max.   :1.487e+09       Max.   :573806844         
-##  NA&#39;s   :1310            NA&#39;s   :1387</code></pre>
+<div id="animals-slaughtered-for-meat" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Animals slaughtered for meat</h1>
+<div id="a-glance-to-the-data" class="section level2" number="1.1">
+<h2 number="1.1"><span class="header-section-number">1.1</span> A glance to the data</h2>
+<p>Head of data animals slaughtered</p>
+<pre><code>## # A tibble: 6 x 9
+##   Entity      Code   Year Cattle   Goats Chicken Turkey  Pigs   Sheep
+##   &lt;chr&gt;       &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Afghanistan AFG    1961 360000  940000 7000000     NA    NA 4336000
+## 2 Afghanistan AFG    1962 384000  875000 7500000     NA    NA 4355000
+## 3 Afghanistan AFG    1963 396000  810000 7700000     NA    NA 4673000
+## 4 Afghanistan AFG    1964 402000  750000 8000000     NA    NA 5010000
+## 5 Afghanistan AFG    1965 408000  875000 8500000     NA    NA 5179000
+## 6 Afghanistan AFG    1966 569600 1130000 9000000     NA    NA 5366000</code></pre>
+<p>Summary of data animals slaughtered</p>
+<pre><code>##     Entity              Code                Year          Cattle         
+##  Length:13537       Length:13537       Min.   :1961   Min.   :        0  
+##  Class :character   Class :character   1st Qu.:1976   1st Qu.:    18000  
+##  Mode  :character   Mode  :character   Median :1991   Median :   298306  
+##                                        Mean   :1990   Mean   :  5015114  
+##                                        3rd Qu.:2005   3rd Qu.:  1723775  
+##                                        Max.   :2018   Max.   :302150272  
+##                                                       NA&#39;s   :367        
+##      Goats              Chicken              Turkey         
+##  Min.   :        0   Min.   :0.000e+00   Min.   :        0  
+##  1st Qu.:    15000   1st Qu.:2.500e+06   1st Qu.:   149000  
+##  Median :   192000   Median :2.257e+07   Median :  1002000  
+##  Mean   :  6305828   Mean   :5.916e+08   Mean   : 21980054  
+##  3rd Qu.:  1450000   3rd Qu.:1.727e+08   3rd Qu.:  6879250  
+##  Max.   :479137283   Max.   :6.879e+10   Max.   :670019000  
+##  NA&#39;s   :1607        NA&#39;s   :319         NA&#39;s   :8275       
+##       Pigs               Sheep          
+##  Min.   :0.000e+00   Min.   :        0  
+##  1st Qu.:2.504e+04   1st Qu.:    18506  
+##  Median :2.910e+05   Median :   360000  
+##  Mean   :1.902e+07   Mean   :  9873200  
+##  3rd Qu.:4.141e+06   3rd Qu.:  4000000  
+##  Max.   :1.487e+09   Max.   :573806844  
+##  NA&#39;s   :1310        NA&#39;s   :1387</code></pre>
+</div>
+<div id="observing-the-data-with-graphs-before-cleaning" class="section level2" number="1.2">
+<h2 number="1.2"><span class="header-section-number">1.2</span> Observing the data with graphs before cleaning</h2>
+<pre><code>## Warning: Removed 1 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="Analysis_files/figure-html/plot%20wiht%20by%20year%20and%20turkey-1.png" width="672" /></p>
+<div id="analysing-the-na-values" class="section level3" number="1.2.1">
+<h3 number="1.2.1"><span class="header-section-number">1.2.1</span> Analysing the NA values</h3>
+<pre><code>## # A tibble: 10,676 x 9
+##    Entity      Code   Year Cattle   Goats  Chicken Turkey  Pigs   Sheep
+##    &lt;chr&gt;       &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+##  1 Afghanistan AFG    1961 360000  940000  7000000     NA    NA 4336000
+##  2 Afghanistan AFG    1962 384000  875000  7500000     NA    NA 4355000
+##  3 Afghanistan AFG    1963 396000  810000  7700000     NA    NA 4673000
+##  4 Afghanistan AFG    1964 402000  750000  8000000     NA    NA 5010000
+##  5 Afghanistan AFG    1965 408000  875000  8500000     NA    NA 5179000
+##  6 Afghanistan AFG    1966 569600 1130000  9000000     NA    NA 5366000
+##  7 Afghanistan AFG    1967 544000 1562500  9500000     NA    NA 5700000
+##  8 Afghanistan AFG    1968 595300 1562500 10000000     NA    NA 6500000
+##  9 Afghanistan AFG    1969 628300 1562500 12000000     NA    NA 6120000
+## 10 Afghanistan AFG    1970 653000 1400000 12000000     NA    NA 6300000
+## # … with 10,666 more rows</code></pre>
+<p>Observing the NA values with NA values in the code column</p>
+<pre><code>## # A tibble: 1,919 x 9
+##    Entity Code   Year   Cattle    Goats   Chicken  Turkey    Pigs    Sheep
+##    &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+##  1 Africa &lt;NA&gt;   1961 13234469 28149963 358405000 1425000 3835586 37209769
+##  2 Africa &lt;NA&gt;   1962 13352172 28839824 372999000 1510000 3987514 37692188
+##  3 Africa &lt;NA&gt;   1963 13446035 28479713 386697000 1585000 4070344 37941638
+##  4 Africa &lt;NA&gt;   1964 13876142 29039973 409381000 1670000 4313906 39516510
+##  5 Africa &lt;NA&gt;   1965 14132494 30173704 428228000 1756000 4536320 40664599
+##  6 Africa &lt;NA&gt;   1966 14825209 30913404 453648000 1896000 4723078 42342568
+##  7 Africa &lt;NA&gt;   1967 14970980 31614464 481029000 1917000 4803676 43350909
+##  8 Africa &lt;NA&gt;   1968 15529364 32523803 508385000 2072000 5183896 44701160
+##  9 Africa &lt;NA&gt;   1969 15883805 33160629 546194000 2233000 5552211 46860808
+## 10 Africa &lt;NA&gt;   1970 16278810 34092259 578997000 2383000 5612991 45567490
+## # … with 1,909 more rows</code></pre>
+<p>Cleaning the rows without code.</p>
+</div>
+</div>
+<div id="data-of-animals-slaughtered-after-cleaning" class="section level2" number="1.3">
+<h2 number="1.3"><span class="header-section-number">1.3</span> Data of animals slaughtered after cleaning</h2>
+<p>Head of animals slaughtered after cleaning</p>
+<pre><code>## # A tibble: 6 x 9
+##   Entity      Code   Year Cattle   Goats Chicken Turkey  Pigs   Sheep
+##   &lt;chr&gt;       &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Afghanistan AFG    1961 360000  940000 7000000     NA    NA 4336000
+## 2 Afghanistan AFG    1962 384000  875000 7500000     NA    NA 4355000
+## 3 Afghanistan AFG    1963 396000  810000 7700000     NA    NA 4673000
+## 4 Afghanistan AFG    1964 402000  750000 8000000     NA    NA 5010000
+## 5 Afghanistan AFG    1965 408000  875000 8500000     NA    NA 5179000
+## 6 Afghanistan AFG    1966 569600 1130000 9000000     NA    NA 5366000</code></pre>
+<p>Summary of animals slaughtered after cleaning</p>
+<pre><code>##     Entity              Code                Year          Cattle         
+##  Length:11618       Length:11618       Min.   :1961   Min.   :        0  
+##  Class :character   Class :character   1st Qu.:1976   1st Qu.:    12000  
+##  Mode  :character   Mode  :character   Median :1991   Median :   180255  
+##                                        Mean   :1990   Mean   :  2567758  
+##                                        3rd Qu.:2005   3rd Qu.:   761050  
+##                                        Max.   :2018   Max.   :302150272  
+##                                                       NA&#39;s   :367        
+##      Goats              Chicken              Turkey         
+##  Min.   :        0   Min.   :0.000e+00   Min.   :        0  
+##  1st Qu.:     8262   1st Qu.:1.600e+06   1st Qu.:    50000  
+##  Median :   107618   Median :1.400e+07   Median :   508000  
+##  Mean   :  2835692   Mean   :3.178e+08   Mean   : 14646405  
+##  3rd Qu.:   663684   3rd Qu.:7.380e+07   3rd Qu.:  3500000  
+##  Max.   :479137283   Max.   :6.879e+10   Max.   :670019000  
+##  NA&#39;s   :1568        NA&#39;s   :319         NA&#39;s   :8019       
+##       Pigs               Sheep          
+##  Min.   :0.000e+00   Min.   :        0  
+##  1st Qu.:1.800e+04   1st Qu.:     8600  
+##  Median :1.667e+05   Median :   181133  
+##  Mean   :1.038e+07   Mean   :  4910421  
+##  3rd Qu.:1.880e+06   3rd Qu.:  1523469  
+##  Max.   :1.487e+09   Max.   :573806844  
+##  NA&#39;s   :1259        NA&#39;s   :1299</code></pre>
+<p>Observing the data with graphs after cleaning</p>
+<pre><code>## Warning: Removed 2 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="Analysis_files/figure-html/plot%20wiht%20by%20year%20and%20turkey%20after%20cleaning-1.png" width="672" /></p>
+</div>
+</div>
 
 
 

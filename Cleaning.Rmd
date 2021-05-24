@@ -2,5 +2,65 @@
 title: "Cleaning"
 ---
 
-# Topic 1
+# Preparing the information
 
+## Loading the libraries
+
+```{r include=FALSE}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+```
+
+
+
+```{r load the slaughtered data set, include=FALSE}
+animals_slaughtered_for_meat <- read_csv("archive (5)/animals-slaughtered-for-meat.csv")
+```
+
+```{r changing names, include=FALSE}
+#Change the name of some columns to create subsets
+colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Turkey (turkeys slaughtered)"] <- "Turkey"
+colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Pigs (pigs slaughtered)"] <- "Pigs"
+colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Cattle (cattle slaughtered)"] <- "Cattle"
+colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Goats (goats slaughtered)"] <- "Goats"
+colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Chicken (chicken slaughtered)"] <- "Chicken"
+colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Sheep (sheeps slaughtered)"] <- "Sheep"
+```
+
+## A glance to the data
+Head of data animals slaughtered
+
+```{r head of data animals slaughtered DS}
+#head of data set
+head(animals_slaughtered_for_meat)
+```
+
+Summary of data animals slaughtered 
+
+```{r summary of data animals slaughtered DS}
+#Summary of data set
+summary(animals_slaughtered_for_meat)
+```
+
+### Analysing the NA values
+
+```{r observing NA values}
+#Observing data with NA values
+animals_slaughtered_for_meat[rowSums(is.na(animals_slaughtered_for_meat)) > 0, ]
+```
+
+Observing the NA values with NA values in the code column
+
+```{r observing data with NA values in the code column}
+#Observing data with NA values in the code column
+animals_slaughtered_for_meat[is.na(animals_slaughtered_for_meat$Code), ]
+```
+
+Cleaning the rows without code.
+```{r Cleaning codes for continents}
+#Because the code does not have codes for the continents, it is necessary to erase those rows.
+#Delete columns without code (Only rows that are continents)
+animals_slaughtered_for_meat[!is.na(animals_slaughtered_for_meat$Code), ]
+```

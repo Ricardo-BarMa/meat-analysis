@@ -2,6 +2,7 @@ name: "Meat analysis"
 output_dir: 'docs'
 output:
   html_document:
+    number_sections: true
     theme: cosmo
     highlight: zenburn
     toc: true

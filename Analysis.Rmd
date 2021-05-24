@@ -5,12 +5,103 @@ date: "5/23/2021"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+# Animals slaughtered for meat
+
+## A glance to the data
+
+```{r include=FALSE}
 library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+```
+
+```{r load the slaughtered data set, include=FALSE}
 animals_slaughtered_for_meat <- read_csv("archive (5)/animals-slaughtered-for-meat.csv")
 ```
 
-```{r}
+```{r changing names, include=FALSE}
+#Change the name of some columns to create subsets
+colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Turkey (turkeys slaughtered)"] <- "Turkey"
+colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Pigs (pigs slaughtered)"] <- "Pigs"
+colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Cattle (cattle slaughtered)"] <- "Cattle"
+colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Goats (goats slaughtered)"] <- "Goats"
+colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Chicken (chicken slaughtered)"] <- "Chicken"
+colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Sheep (sheeps slaughtered)"] <- "Sheep"
+```
+
+Head of data animals slaughtered
+
+```{r head of data animals slaughtered DS, echo=FALSE}
+#head of data set
+head(animals_slaughtered_for_meat)
+```
+
+Summary of data animals slaughtered 
+
+```{r summary of data animals slaughtered DS, echo=FALSE}
+#Summary of data set
 summary(animals_slaughtered_for_meat)
 ```
 
+
+## Observing the data with graphs before cleaning
+
+```{r plot wiht by year and turkey,echo=FALSE}
+ggplot(animals_slaughtered_for_meat, aes(x = Year, y = Turkey)) + 
+  geom_line(aes(color = Year), size = 1) +
+  theme_minimal()
+```
+
+### Analysing the NA values
+
+```{r observing NA values, echo=FALSE}
+#Observing data with NA values
+animals_slaughtered_for_meat[rowSums(is.na(animals_slaughtered_for_meat)) > 0, ]
+```
+
+Observing the NA values with NA values in the code column
+
+```{r observing data with NA values in the code column,echo=FALSE}
+#Observing data with NA values in the code column
+animals_slaughtered_for_meat[is.na(animals_slaughtered_for_meat$Code), ]
+```
+
+Cleaning the rows without code.
+```{r Cleaning codes for continents,echo=FALSE}
+#Because the code does not have codes for the continents, it is necessary to erase those rows.
+#Delete columns without code (Only rows that are continents)
+animals_slaughtered_for_meat <- animals_slaughtered_for_meat[!is.na(animals_slaughtered_for_meat$Code), ]
+```
+
+
+## Data of animals slaughtered after cleaning
+
+Head of animals slaughtered after cleaning
+
+```{r head of animals slaughtered after cleaning, echo=FALSE}
+#head of data set
+head(animals_slaughtered_for_meat)
+```
+
+Summary of animals slaughtered after cleaning
+
+```{r summary of animals slaughtered after cleaning,echo=FALSE}
+#Summary of data set
+summary(animals_slaughtered_for_meat)
+```
+
+
+Observing the data with graphs after cleaning
+
+```{r plot wiht by year and turkey after cleaning,echo=FALSE}
+ggplot(animals_slaughtered_for_meat, aes(x = Year, y = Turkey)) + 
+  geom_line(aes(color = Year), size = 1) +
+  theme_minimal()
+```
+
+
+```{r subset of animals slaughtered, eval=FALSE, include=FALSE}
+#Subset of Turkey and pigs due to missing data
+#animals_slaughtered_for_meat <- subset(animals_slaughtered_for_meat, select = c(-Turkey, -Pigs))
+```
