@@ -1,4 +1,9 @@
 ---
 title: "Transformation"
 ---
-# Topic 1
+
+
+```{r}
+global_meat_production <- read_csv("archive (5)/global-meat-production.csv")
+global_meat_production_by_livestock_type <- read_csv("archive (5)/global-meat-production-by-livestock-type.csv")
+```

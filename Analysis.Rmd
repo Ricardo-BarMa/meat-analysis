@@ -18,6 +18,7 @@ library(tidyr)
 
 ```{r load the slaughtered data set, include=FALSE}
 animals_slaughtered_for_meat <- read_csv("archive (5)/animals-slaughtered-for-meat.csv")
+
 ```
 
 ```{r changing names, include=FALSE}
