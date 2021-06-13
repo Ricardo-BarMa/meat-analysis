@@ -17,39 +17,23 @@ library(tidyr)
 ```
 
 ```{r load the slaughtered data set, include=FALSE}
-animals_slaughtered_for_meat <- read_csv("archive (5)/animals-slaughtered-for-meat.csv")
-
+global_meat_production <- read_csv("archive (5)/global-meat-production.csv")
 ```
 
-```{r changing names, include=FALSE}
-#Change the name of some columns to create subsets
-colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Turkey (turkeys slaughtered)"] <- "Turkey"
-colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Pigs (pigs slaughtered)"] <- "Pigs"
-colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Cattle (cattle slaughtered)"] <- "Cattle"
-colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Goats (goats slaughtered)"] <- "Goats"
-colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Chicken (chicken slaughtered)"] <- "Chicken"
-colnames(animals_slaughtered_for_meat)[colnames(animals_slaughtered_for_meat) == "Sheep (sheeps slaughtered)"] <- "Sheep"
+```{r}
+head(global_meat_production)
 ```
 
-Head of data animals slaughtered
-
-```{r head of data animals slaughtered DS, echo=FALSE}
-#head of data set
-head(animals_slaughtered_for_meat)
-```
-
-Summary of data animals slaughtered 
 
 ```{r summary of data animals slaughtered DS, echo=FALSE}
 #Summary of data set
-summary(animals_slaughtered_for_meat)
+summary(global_meat_production)
 ```
-
 
 ## Observing the data with graphs before cleaning
 
 ```{r plot wiht by year and turkey,echo=FALSE}
-ggplot(animals_slaughtered_for_meat, aes(x = Year, y = Turkey)) + 
+ggplot(global_meat_production, aes(x = Year, y = global_meat_production$`Livestock Primary - Meat, Total - 1765 - Production - 5510 - tonnes (tonnes)`)) + 
   geom_line(aes(color = Year), size = 1) +
   theme_minimal()
 ```
@@ -58,21 +42,21 @@ ggplot(animals_slaughtered_for_meat, aes(x = Year, y = Turkey)) +
 
 ```{r observing NA values, echo=FALSE}
 #Observing data with NA values
-animals_slaughtered_for_meat[rowSums(is.na(animals_slaughtered_for_meat)) > 0, ]
+global_meat_production[rowSums(is.na(global_meat_production)) > 0, ]
 ```
 
 Observing the NA values with NA values in the code column
 
-```{r observing data with NA values in the code column,echo=FALSE}
+```{r observing data with NA values in the values column,echo=FALSE}
 #Observing data with NA values in the code column
-animals_slaughtered_for_meat[is.na(animals_slaughtered_for_meat$Code), ]
+global_meat_production[is.na(global_meat_production$`Livestock Primary - Meat, Total - 1765 - Production - 5510 - tonnes (tonnes)`), ]
 ```
 
 Cleaning the rows without code.
 ```{r Cleaning codes for continents,echo=FALSE}
 #Because the code does not have codes for the continents, it is necessary to erase those rows.
 #Delete columns without code (Only rows that are continents)
-animals_slaughtered_for_meat <- animals_slaughtered_for_meat[!is.na(animals_slaughtered_for_meat$Code), ]
+global_meat_production <- global_meat_production[!is.na(global_meat_production$Code), ]
 ```
 
 
@@ -82,27 +66,72 @@ Head of animals slaughtered after cleaning
 
 ```{r head of animals slaughtered after cleaning, echo=FALSE}
 #head of data set
-head(animals_slaughtered_for_meat)
+head(global_meat_production)
 ```
 
 Summary of animals slaughtered after cleaning
 
 ```{r summary of animals slaughtered after cleaning,echo=FALSE}
 #Summary of data set
-summary(animals_slaughtered_for_meat)
+summary(global_meat_production)
 ```
 
+```{r}
+head(arrange(global_meat_production,desc(global_meat_production$`Livestock Primary - Meat, Total - 1765 - Production - 5510 - tonnes (tonnes)`)),n = 20)
+```
+
+```{r}
+global_meat_production <- global_meat_production[global_meat_production$Code != "OWID_WRL", ]
+```
+
+```{r}
+head(arrange(global_meat_production,desc(global_meat_production$`Livestock Primary - Meat, Total - 1765 - Production - 5510 - tonnes (tonnes)`)),n = 50)
+```
 
 Observing the data with graphs after cleaning
 
 ```{r plot wiht by year and turkey after cleaning,echo=FALSE}
-ggplot(animals_slaughtered_for_meat, aes(x = Year, y = Turkey)) + 
+ggplot(global_meat_production, aes(x = Year, y = global_meat_production$`Livestock Primary - Meat, Total - 1765 - Production - 5510 - tonnes (tonnes)`)) + 
   geom_line(aes(color = Year), size = 1) +
   theme_minimal()
 ```
 
 
-```{r subset of animals slaughtered, eval=FALSE, include=FALSE}
-#Subset of Turkey and pigs due to missing data
-#animals_slaughtered_for_meat <- subset(animals_slaughtered_for_meat, select = c(-Turkey, -Pigs))
+```{r plot wiht by year and turkey after cleaning,echo=FALSE}
+ggplot(global_meat_production) +
+  aes(x = global_meat_production$`Livestock Primary - Meat, Total - 1765 - Production - 5510 - tonnes (tonnes)`) +
+  geom_histogram(bins = 30L, fill = "#0c4c8a") +
+  theme_minimal()
+
 ```
+
+```{r}
+summ_prod_by_country <- aggregate(global_meat_production$`Livestock Primary - Meat, Total - 1765 - Production - 5510 - tonnes (tonnes)`, by=list(Category=global_meat_production$Code), FUN=sum)
+
+summ_prod_by_country[order(-summ_prod_by_country$x),]
+```
+```{r}
+ggplot(summ_prod_by_country) +
+  aes(x = "", y = summ_prod_by_country$x) +
+  geom_boxplot(fill = "#0c4c8a") +
+  theme_minimal()
+```
+```{r}
+
+top <- summ_prod_by_country %>%
+    arrange(desc(x)) %>%
+    slice(1:10)
+```
+
+```{r}
+ggplot(data=top, aes(x=Category, y=x,fill=Category)) +
+    geom_bar(stat="identity") +
+    geom_text(aes(label=round(x/1000000)), vjust=1.6, color="black", size=3.5) + 
+    theme_minimal() + 
+    theme(axis.text.y = element_blank()) +
+    ggtitle("Top 10 countries with more production from 1960 to 2018") +
+    xlab("Countries") +
+    ylab("Production in Mio.") + 
+    guides(fill=FALSE)
+```
+
