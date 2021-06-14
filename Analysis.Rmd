@@ -17,11 +17,12 @@ library(tidyr)
 library(janitor)
 ```
 
-```{r load the slaughtered data set, include=FALSE}
+```{r load the global meat production data set, include=FALSE}
 global_meat_production <- data.frame( read_csv("archive (5)/global-meat-production.csv"))
 ```
 
 ```{r}
+#Getting the head of the DS.
 head(global_meat_production)
 ```
 
@@ -33,7 +34,7 @@ summary(global_meat_production)
 
 ## Observing the data with graphs before cleaning
 
-```{r plot wiht by year and turkey,echo=FALSE}
+```{r plot by year and production from 1961 to 2018,echo=FALSE}
 #added the title, subtitle, ylab, and caption)
 
 ggplot(global_meat_production, aes(x = Year, y =global_meat_production$`Livestock.Primary...Meat..Total...1765...Production...5510...tonnes..tonnes.`)) +  
@@ -46,6 +47,7 @@ ggplot(global_meat_production, aes(x = Year, y =global_meat_production$`Livestoc
 
 ```{r observing NA values, echo=FALSE}
 #Observing data with NA values
+
 global_meat_production[rowSums(is.na(global_meat_production)) > 0,]
 ```
 
@@ -53,7 +55,9 @@ Observing the NA values with NA values in the code column
 
 ```{r observing data with NA values in the values column,echo=FALSE}
 #Observing data with NA values in the code column
-global_meat_production[is.na(global_meat_production$`Livestock Primary - Meat, Total - 1765 - Production - 5510 - tonnes (tonnes)`), ]
+#The data with NA in Code are continents or regions. The information should not be considered.
+
+global_meat_production[is.na(global_meat_production$country_code), ]
 ```
 
 Cleaning the columns and renaming 
@@ -74,17 +78,6 @@ global_meat_production <- global_meat_production %>%
          livestock_primary = `livestock_primary_meat_total_1765_production_5510_tonnes_tonnes`)
 ```
 
-Cleaning the rows without code.
-
-
-```{r Cleaning codes for country,echo=FALSE}
-#Because the code does not have codes for the countries, it is necessary to erase those rows.
-#Delete columns without code (Only rows that are countries)
-
-# We shouldn't delete the rows with NA since the rows have data within the other columns.
-
-global_meat_production <- global_meat_production[!is.na.data.frame(global_meat_production$country_code)]
-```
 
 ## Data of animals slaughtered after cleaning
 
@@ -103,21 +96,15 @@ summary(global_meat_production)
 ```
 
 ```{r}
+#Top countries with more production
 head(arrange(global_meat_production,desc(global_meat_production$livestock_primary)),n = 20)
 ```
 
 
-```{r}
-
-# Look at the code below line 103, the code filtered OWID_WRL
-# The code on line 99, run an error on my end
-
-global_meat_production <- global_meat_production[global_meat_production$country_code != "OWID_WRL"]
-```
 
 # New dataframe
 
-```{r}
+```{r new data frame without world features}
 
 # Filtered OWID_WRL
 # Created new dataframe to run the following codes below.
@@ -128,7 +115,17 @@ global_mp <- filter(global_meat_production, country_code != "OWID_WRL")
 ```
 
 
-```{r}
+
+```{r list of countries}
+#Save a new DF to observe the country and country codes. This will be useful to observe the countries that could mislead the analysis. 
+list_countries <- unique(global_mp[c("country", "country_code")])
+```
+
+
+
+
+```{r head of countries without the regional (e.g. Europe) numbers}
+#Observe top countries and produciton
 head(arrange(global_mp,desc(global_mp$livestock_primary,n = 50)))
 ```
 
@@ -167,6 +164,7 @@ summ_prod_by_country <- aggregate(global_mp$livestock_primary, by = list(categor
 summ_prod_by_country[order(-summ_prod_by_country$x),]
  
 ```
+
 ```{r}
 #added title, xlab, subtitle, and caption
 
@@ -191,7 +189,7 @@ ggplot(data=top, aes(x=category, y=x,fill=category)) +
     geom_text(aes(label=round(x/1000000)), vjust=1.6, color="black", size=3.5) + 
     theme_minimal() + 
     theme(axis.text.y = element_blank()) +
-    ggtitle("Top 10 countries with more production from 1960 to 2018") +
+    ggtitle("Top 10 countries with more production from 1961 to 2018") +
     xlab("Countries") +
     ylab("Production in Mio.") + 
     guides(fill=FALSE)
