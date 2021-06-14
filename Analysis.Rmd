@@ -165,7 +165,7 @@ summ_prod_by_country[order(-summ_prod_by_country$x),]
  
 ```
 
-```{r}
+```{r finding outliers in the data}
 #added title, xlab, subtitle, and caption
 
 ggplot(summ_prod_by_country) +
