@@ -195,3 +195,115 @@ ggplot(data=top, aes(x=category, y=x,fill=category)) +
     guides(fill=FALSE)
 ```
 
+```{r}
+per_capita_consumption_per_year <- read_csv("archive (5)/per-capita-meat-consumption-by-type-kilograms-per-year.csv")
+```
+
+```{r load the consumption data set, include=FALSE}
+head(per_capita_consumption_per_year)
+```
+
+```{r summary of data consumption, echo=FALSE}
+#Summary of data set
+summary(per_capita_consumption_per_year)
+```
+
+## Observing the data with graphs before cleaning
+
+```{r plot by year and consumption from 1961 to 2018,echo=FALSE}
+#added the title, subtitle, ylab, and caption)
+
+ggplot(per_capita_consumption_per_year, aes(x = Year, y =per_capita_consumption_per_year$`Beef and bufallo (kilograms per year)`)) +  
+  labs(title = "World Meat Production Datasets 1961 - 2018", subtitle = "Global Meat Production", caption = "Data from Food and Agriculture Organization")+
+  ylab("Livestock Primary")+
+  geom_line(aes(color = Year), size = 1) + theme_minimal()
+```
+### Analysing the NA values
+
+```{r observing NA values consum, echo=FALSE}
+#Observing data with NA values
+
+per_capita_consumption_per_year[rowSums(is.na(per_capita_consumption_per_year)) > 0,]
+```
+Observing the NA values with NA values in the code column
+
+```{r observing data with NA values in the values column consum,echo=FALSE}
+#Observing data with NA values in the code column
+#The data with NA in Code are continents or regions. The information should not be considered.
+
+per_capita_consumption_per_year[is.na(per_capita_consumption_per_year$Code), ]
+```
+```{r}
+#Formatted the columns titles to lowercase
+
+per_capita_consumption_per_year <- clean_names(per_capita_consumption_per_year)
+```
+
+## Data of consumption after cleaning
+
+Head of consumption after cleaning
+
+```{r head of consum after cleaning, echo=FALSE}
+#head of data set
+head(per_capita_consumption_per_year)
+```
+
+
+```{r summary of consumption after cleaning,echo=FALSE}
+#Summary of data set
+summary(per_capita_consumption_per_year)
+```
+
+```{r}
+#Top countries with more production
+head(arrange(per_capita_consumption_per_year,desc(per_capita_consumption_per_year$mutton_and_goat_kilograms_per_year)),n = 20)
+```
+
+Eliminating the information with the NA values in the code column
+
+```{r DF without NA values in code column,echo=FALSE}
+#deliting the information without a code (continents information).
+
+per_capita_consumption_per_year <- per_capita_consumption_per_year[!is.na(per_capita_consumption_per_year$code), ]
+```
+
+```{r list of countries consum}
+#Save a new DF to observe the country and country codes. This will be useful to observe the countries that could mislead the analysis. 
+list_countries_consum <- unique(per_capita_consumption_per_year[c("entity", "code")])
+```
+
+
+```{r head of countries without the regional (e.g. Europe) numbers consum}
+#Observe top countries and consumption
+head(arrange(per_capita_consumption_per_year,desc(per_capita_consumption_per_year$beef_and_bufallo_kilograms_per_year,n = 50)))
+```
+
+
+Observing the data with graphs after cleaning
+
+```{r plot wiht by year and beef/bufalo,echo=FALSE}
+
+ggplot(per_capita_consumption_per_year, aes(x = year, y = per_capita_consumption_per_year$beef_and_bufallo_kilograms_per_year)) + 
+  ylab("Beef and bufallo kilograms per year")+ xlab("Year")+
+  labs(title = "World Meat Consumption of Beef and Bufalo in kilograms from 1961 - 2018", subtitle = "Global Meat consumption", caption = "Data from Food and Agriculture Organization")+ 
+  geom_line(aes(color = year), size = 1) +
+  theme_minimal()
+```
+```{r}
+row_sub = apply(per_capita_consumption_per_year, 1, function(row) all(row !="Maldives" ))
+per_capita_consumption_per_year <- per_capita_consumption_per_year[row_sub,]
+```
+
+```{r}
+per_capita_consumption_per_year <- per_capita_consumption_per_year[!is.na(per_capita_consumption_per_year$code), ]
+```
+
+
+```{r plot wiht by year and beef/bufalo without NAs,echo=FALSE}
+
+ggplot(per_capita_consumption_per_year, aes(x = year, y = per_capita_consumption_per_year$beef_and_bufallo_kilograms_per_year)) + 
+  ylab("Beef and bufallo kilograms per year")+ xlab("Year")+
+  labs(title = "World Meat Consumption of Beef and Bufalo in kilograms from 1961 - 2018", subtitle = "Global Meat consumption", caption = "Data from Food and Agriculture Organization")+ 
+  geom_line(aes(color = year), size = 1) +
+  theme_minimal()
+```
