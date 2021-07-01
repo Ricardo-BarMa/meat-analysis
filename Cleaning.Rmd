@@ -11,13 +11,71 @@ library(readr)
 library(dplyr)
 library(ggplot2)
 library(tidyr)
+library(janitor)
 ```
 
 
 
-```{r load the slaughtered data set, include=FALSE}
+```{r load the global meat production data set, include=FALSE}
+production_df <- data.frame(read_csv("archive (5)/global-meat-production.csv"))
 ```
 
-```{r changing names, include=FALSE}
+
+```{r}
+#Formatted the columns titles to lowercase
+
+production_df <- clean_names(production_df)
 ```
+
+
+```{r}
+#Used the pipe operator to rename the columns
+
+production_df <- production_df %>% 
+  rename(country = entity,
+         primary_livestock_meat = `livestock_primary_meat_total_1765_production_5510_tonnes_tonnes`)
+```
+
+
+```{r}
+production_df <- production_df %>% 
+  rename(country_code = code)
+```
+
+
+```{r view data set, include=FALSE}
+View(production_df)
+```
+
+
+```{r}
+#filtered OWID_WRL 
+#created new data frame
+
+country_code_world <- filter(production_df, country_code == "OWID_WRL")
+```
+
+
+
+```{r}
+#continents <- production_df[is.na(production_df$country_code)]
+continents <- filter(production_df,is.na(country_code))
+```
+
+
+```{r}
+production_dfcopy <- production_df
+```
+
+
+```{r}
+production_dfcopy <- production_dfcopy %>% 
+  filter(!is.na(country_code))
+```
+
+```{r}
+production_dfcopy <- production_dfcopy %>% 
+  filter(country_code != "OWID_WRL")
+```
+
 
