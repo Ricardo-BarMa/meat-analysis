@@ -79,3 +79,37 @@ production_dfcopy <- production_dfcopy %>%
 ```
 
 
+# Loading data information from CVS (consumption)
+```{r load the global meat consumption data set, include=FALSE}
+pc_meat_consumption_kg <- read_csv("docs/archive (5)/per-capita-meat-consumption-by-type-kilograms-per-year.csv")
+```
+
+## Pipe to clean the data information of consumption by country
+```{r rename columns, filter out continents and change na values for na}
+#Used the pipe operator to clean the names of the columns, rename columns, to filter na codes (df without continents) and change the na values to 0.
+pc_meat_consumption_kg_country <- pc_meat_consumption_kg %>%
+  clean_names() %>%
+  rename(mutton_goat_kg = mutton_and_goat_kilograms_per_year,
+         other_kg = other_meats_kilograms_per_person,
+         poultry_kg = poultry_kilograms_per_year,
+         pigmeat_kg = pigmeat_kilograms_per_year,
+         beef_bufallo_kg = beef_and_bufallo_kilograms_per_year) %>%
+  filter(!is.na(code)) %>% 
+  mutate_all( ~replace(., is.na(.), 0.0))
+```
+
+## Pipe to clean the data information of consumption by continent
+```{r rename columns, filter out continents and change na values for na}
+#Used the pipe operator to clean the names of the columns, rename columns, to filter na codes (df without continents) and change the na values to 0.
+pc_meat_consumption_kg_continent <- pc_meat_consumption_kg %>%
+  clean_names() %>%
+  rename(mutton_goat_kg = mutton_and_goat_kilograms_per_year,
+         other_kg = other_meats_kilograms_per_person,
+         poultry_kg = poultry_kilograms_per_year,
+         pigmeat_kg = pigmeat_kilograms_per_year,
+         beef_bufallo_kg = beef_and_bufallo_kilograms_per_year) %>%
+  filter(is.na(code))
+```
+
+
+

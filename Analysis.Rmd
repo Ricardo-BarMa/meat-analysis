@@ -307,3 +307,21 @@ ggplot(per_capita_consumption_per_year, aes(x = year, y = per_capita_consumption
   geom_line(aes(color = year), size = 1) +
   theme_minimal()
 ```
+
+```{r}
+barplot(tapply(per_capita_consumption_per_year$mutton_and_goat_kilograms_per_year, format(per_capita_consumption_per_year$year), FUN=sum))
+```
+```{r}
+library(dplyr)
+library(ggplot2)
+graph_consumption_2 <- per_capita_consumption_per_year %>% 
+  group_by(year) %>% 
+  summarise(Data = sum(mutton_and_goat_kilograms_per_year))
+
+ggplot(graph_consumption_2, aes(x = year, y = Data)) + 
+  ylab("Mutton and goat kilograms per year")+ xlab("Year")+
+  labs(title = "World Meat Consumption of mutton and goat in kilograms from 1961 - 2018", subtitle = "Global Meat consumption", caption = "Data from Food and Agriculture Organization")+ 
+  geom_line(aes(color = year), size = 1) +
+  theme_minimal()
+```
+
