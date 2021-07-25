@@ -2,7 +2,10 @@
 title: "Analysis"
 author: "Jumoke Ajakaiye and Ricardo David Barragan Martinez"
 date: "5/23/2021"
-output: html_document
+output: 
+  html_document: 
+    toc: yes
+    df_print: paged
 ---
 
 # Animals slaughtered for meat
@@ -131,7 +134,7 @@ head(arrange(global_mp,desc(global_mp$livestock_primary,n = 50)))
 
 Observing the data with graphs after cleaning
 
-```{r plot wiht by year and turkey after cleaning,echo=FALSE}
+```{r plot wiht by year and turkey after cleaning 1,echo=FALSE}
 #global_mp dataframe
 #added ylab,xlab, title, subtitle, and caption) 
 
@@ -325,3 +328,360 @@ ggplot(graph_consumption_2, aes(x = year, y = Data)) +
   theme_minimal()
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Meat consumption data set analysis.
+
+
+```{r include=FALSE}
+## Loading the libraries
+
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(janitor)
+library(tidyverse)
+```
+
+
+```{r load the global meat consumption data set, include=FALSE}
+# Loading data information from CVS (consumption) 
+pc_meat_consumption_kg <- read_csv("docs/archive (5)/per-capita-meat-consumption-by-type-kilograms-per-year.csv")
+```
+
+## Information after cleaning 
+
+(please see the cleaning link to observe the cleaning code).
+
+```{r rename columns, echo=FALSE, paged.print=TRUE}
+#Used the pipe operator to clean the names of the columns, rename columns, to filter na codes (df without continents) and change the na values to 0.
+pc_meat_consumption_kg_country <- pc_meat_consumption_kg %>%
+  clean_names() %>%
+  rename(mutton_goat_kg = mutton_and_goat_kilograms_per_year,
+         other_kg = other_meats_kilograms_per_person,
+         poultry_kg = poultry_kilograms_per_year,
+         pigmeat_kg = pigmeat_kilograms_per_year,
+         beef_bufallo_kg = beef_and_bufallo_kilograms_per_year) %>%
+  filter(!is.na(code)) %>% 
+  mutate_all( ~replace(., is.na(.), 0.0))
+pc_meat_consumption_kg_country
+
+
+```
+
+## General information of the meat consumption data frame
+
+The data frame presents the information of different kinds of meat. The information is presented by the Kg per capital. This can be seen as the average consumption of the total population in a year. The next information present an example of the data and the summary of the types of the variables. 
+
+```{r head and glimpse of meat consumption, echo=FALSE, paged.print=TRUE}
+head(pc_meat_consumption_kg_country)
+glimpse(pc_meat_consumption_kg_country)
+```
+
+## Summary of the meat consumption data frame
+
+As it can be observed, the data was collected from 1961 to 2017. The meat that is more eaten based on the mean is the beef/buffallo meat followed by the poultry meat.
+
+```{r summray meat consumption, echo=FALSE}
+summary(pc_meat_consumption_kg_country)
+```
+
+## Box plot of consumtion by animals
+
+The following box plots show the outliers by animal.As it can be perceived, the meat consumption means are low, this means that most of the countries does not have a high meat consumption. However, there are some countries that have outlier values, which mean that the consumtion is really high in comparison to other countries.
+
+```{r Box plot of consumtion by animals, echo=FALSE, paged.print=TRUE}
+pc_meat_consumption_kg_country %>% 
+  gather(animals, Kg, mutton_goat_kg:beef_bufallo_kg) %>%
+  ggplot(aes(x = animals, y = Kg, fill = animals)) + 
+  geom_boxplot() + 
+  labs(title ='Box plot of consumtion by animals')
+
+pc_meat_consumption_kg_country %>% 
+  gather(animals, Kg, mutton_goat_kg:beef_bufallo_kg) %>%
+  ggplot(aes(x = animals, y = Kg, fill = animals)) + 
+  geom_boxplot() +
+  geom_jitter(alpha = 0.1) + 
+  labs(title ='Box plot of consumtion by animals with points')
+```
+
+
+## Transformation to get the top and bottom 5 countries by animals.
+
+As it was perceived in the previous plots, there are some outliers in the data frame. There are some countries that have a high consumption per capta a year. For this project, we are going to focus on the countries with the highest consumtion and the lowest consumtion. We are going to discuss some peculiarities and some insigths.
+
+The following table shows the top and the bottom countries by animals.
+
+```{r Transformation to get the top and bottom 5 countries by animals., echo=FALSE, paged.print=TRUE}
+
+#information grouped by country and getting the 
+#maximum
+mutton_max <- pc_meat_consumption_kg_country %>%
+  select(c(entity, mutton_goat_kg)) %>%
+  rename(Kg = mutton_goat_kg)%>%
+  group_by(entity)%>%
+  summarise(Kg = sum(Kg))%>%
+  #arrange(desc(mutton_goat_kg)) %>%
+  mutate(animal = 'mutton_goat_kg') %>%
+  mutate(type = 'max') %>%
+  slice_max(Kg,n=5)
+
+beef_max <- pc_meat_consumption_kg_country %>%
+  select(c(entity, beef_bufallo_kg)) %>%
+  rename(Kg = beef_bufallo_kg)%>%
+  group_by(entity)%>%
+  summarise(Kg = sum(Kg))%>%
+  mutate(animal = 'beef_bufallo_kg') %>%
+  mutate(type = 'max') %>%
+  slice_max(Kg,n=5)
+
+other_max <- pc_meat_consumption_kg_country %>%
+  select(c(entity, other_kg)) %>%
+  rename(Kg = other_kg)%>%
+  group_by(entity)%>%
+  summarise(Kg = sum(Kg))%>%
+  mutate(animal = 'other_kg') %>%
+  mutate(type = 'max') %>%
+  slice_max(Kg,n=5)
+
+poultry_max <- pc_meat_consumption_kg_country %>%
+  select(c(entity, poultry_kg)) %>%
+  rename(Kg = poultry_kg)%>%
+  group_by(entity)%>%
+  summarise(Kg = sum(Kg))%>%
+  mutate(animal = 'poultry_kg') %>%
+  mutate(type = 'max') %>%
+  slice_max(Kg,n=5)
+
+
+pig_max <- pc_meat_consumption_kg_country %>%
+  select(c(entity, pigmeat_kg)) %>%
+  rename(Kg = pigmeat_kg)%>%
+  group_by(entity)%>%
+  summarise(Kg = sum(Kg))%>%
+  mutate(animal = 'pigmeat_kg') %>%
+  mutate(type = 'max') %>%
+  slice_max(Kg,n=5)
+
+
+#information grouped by country and getting the 
+#minimum
+mutton_min <- pc_meat_consumption_kg_country %>%
+  select(c(entity, mutton_goat_kg)) %>%
+  rename(Kg = mutton_goat_kg)%>%
+  group_by(entity)%>%
+  summarise(Kg = sum(Kg))%>%
+  mutate(animal = 'mutton_goat_kg') %>%
+  mutate(type = 'min') %>%
+  slice_min(Kg,n=5)
+
+beef_min <- pc_meat_consumption_kg_country %>%
+  select(c(entity, beef_bufallo_kg)) %>%
+  rename(Kg = beef_bufallo_kg)%>%
+  group_by(entity)%>%
+  summarise(Kg = sum(Kg))%>%
+  mutate(animal = 'beef_bufallo_kg') %>%
+  mutate(type = 'min') %>%
+  slice_min(Kg,n=5)
+
+other_min <- pc_meat_consumption_kg_country %>%
+  select(c(entity, other_kg)) %>%
+  rename(Kg = other_kg)%>%
+  group_by(entity)%>%
+  summarise(Kg = sum(Kg))%>%
+  mutate(animal = 'other_kg') %>%
+  mutate(type = 'min') %>%
+  slice_min(Kg,n=5)
+
+poultry_min <- pc_meat_consumption_kg_country %>%
+  select(c(entity, poultry_kg)) %>%
+  rename(Kg = poultry_kg)%>%
+  group_by(entity)%>%
+  summarise(Kg = sum(Kg))%>%
+  mutate(animal = 'poultry_kg') %>%
+  mutate(type = 'min') %>%
+  slice_min(Kg,n=5)
+
+pig_min <- pc_meat_consumption_kg_country %>%
+  select(c(entity, pigmeat_kg)) %>%
+  rename(Kg = pigmeat_kg)%>%
+  group_by(entity)%>%
+  summarise(Kg = sum(Kg))%>%
+  mutate(animal = 'pigmeat_kg') %>%
+  mutate(type = 'min') %>%
+  slice_min(Kg,n=5)
+
+top_bottom_countries <-  rbind(mutton_max, pig_max, beef_max, poultry_max, other_max,
+                               mutton_min, pig_min, beef_min, poultry_min, other_min)
+top_bottom_countries
+```
+
+## Top 5 countries by animal
+
+The most interesting countries are the countries that consume more meat. As it is known the consumption of meat is against a sustainable development. This is (among other reasons) because the animals need more land in comparison to vegetables. Therefore, the following table show only the top countries that have a bigger meat consumption. 
+
+```{r echo=FALSE, fig.height=25, fig.width=15, paged.print=TRUE}
+pc_meat_consumption_kg_country %>% 
+  gather(animal, Kg, mutton_goat_kg:beef_bufallo_kg) %>%
+  merge(top_bottom_countries,c("entity","animal")) %>%
+  select(entity, animal, code, year,Kg.x,type) %>%
+  rename(Kg = Kg.x) %>%
+  filter(type == "max") %>%
+  distinct() %>%
+  arrange(animal,entity,year) 
+```
+## Meat consumption distribution by the top 5 countries with more consumption per captita. 
+
+The following graph shows the trend among the top 5 countries with more meat consumption. The trend seem to be positive as the countries tend to eat less meat. This does not represent that all the countries have the same trend, since the income also plays a role in the access of meat consumption. 
+
+It is important to observe that the following graph shows the aggregation of data. This means that the following graph represents the sum of the consumption among the top countries by animal and by country, but the data is aggregated to observe the trend among the gathered information. 
+
+```{r consumption distribution by the top 5 countries with more consumption per captita. , echo=FALSE}
+pc_meat_consumption_kg_country %>% 
+  gather(animal, Kg, mutton_goat_kg:beef_bufallo_kg) %>%
+  merge(top_bottom_countries,c("entity","animal")) %>%
+  select(year,Kg.x,type) %>%
+  rename(Kg = Kg.x) %>%
+  filter(type == "max") %>%
+  group_by(year) %>% 
+  summarise(Kg = sum(Kg)) %>%
+  ggplot(aes(x = year, y = Kg)) + 
+  geom_line(colour = "deepskyblue2") +
+  expand_limits(y = 0) +
+  scale_x_continuous(breaks = round(seq(min(pc_meat_consumption_kg_country$year), max(pc_meat_consumption_kg_country$year), by = 5),1)) + 
+  labs(title = 'Meat consumption distribution by the top 5 countries', subtitle = ' with more consumption per captita.')
+```
+## Meat consumption distribution by the top 5 countries with more consumption per captita and by animals.
+
+As it was observed the meat consumption seem to decrease. However, in the previous graph was not possible to observe if the consumption decreased in general or in a particular type of meat. The following graphs show the consumption trend by type of meat.
+
+```{r Meat consumption distribution by the top 5 countries with more consumption per captita and by animals., echo=FALSE, fig.height=6, message=FALSE, warning=FALSE}
+pc_meat_consumption_kg_country %>% 
+  gather(animal, Kg, mutton_goat_kg:beef_bufallo_kg) %>%
+  merge(top_bottom_countries,c("entity","animal")) %>%
+  select(year,Kg.x,type,animal) %>%
+  rename(Kg = Kg.x) %>%
+  filter(type == "max") %>%
+  group_by(animal,year) %>% 
+  summarise(Kg = sum(Kg)) %>%
+  ggplot(aes(x = year, y = Kg, colour = animal)) +
+  geom_line() +
+  facet_grid(vars(animal)) +
+  scale_x_continuous(breaks = round(seq(min(pc_meat_consumption_kg_country$year), max(pc_meat_consumption_kg_country$year), by = 5),1)) +
+  labs(title='Meat consumption distribution by the top 5 countries', subtitle = 'with more consumption per captita and by animals.')
+```
+## Boxplot of meat consumption per capita by animal type and country
+
+The following boxplots will show the distribution of the data. This will also display the mean and the outliers.
+
+```{r Boxplot of meat consumption per capita by animal type and country, echo=FALSE, fig.height=10, fig.width=10}
+pc_meat_consumption_kg_country %>% 
+  gather(animal, Kg, mutton_goat_kg:beef_bufallo_kg) %>%
+  merge(top_bottom_countries,c("entity","animal")) %>%
+  select(entity, animal, code, year,Kg.x) %>%
+  rename(Kg = Kg.x) %>%
+  distinct() %>%
+  arrange(animal,entity,year) %>%
+  ggplot(aes(x = entity, y = Kg,fill = animal)) + 
+  theme(axis.text.x = element_text(angle = 90)) +
+  geom_boxplot() + facet_grid(vars( animal)) + 
+  geom_jitter(alpha = 0.1) +
+  labs(x="Country",title="Boxplot - Kg per year consumption per capita", subtitle ="by top and bottom countries (meat: other)(sum from 1961 to 2017)")
+```
+
+## Consumption per capita by top and bottom countries and by meat type
+
+The following graphs show the aggregate sum of the consumption by country.
+
+```{r Consumption per capita by top and bottom countries and by meat type, echo=FALSE, paged.print=TRUE}
+top_bottom_countries %>% 
+  filter(animal == 'pigmeat_kg') %>%
+  select(c(entity,Kg)) %>%
+  ggplot(aes(fct_reorder(entity,-Kg),Kg)) +
+  geom_col(fill = "deepskyblue2") +
+  theme(axis.text.x = element_text(angle = 90),axis.text.y=element_blank(),axis.ticks=element_blank(),panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),panel.background = element_blank()) + 
+  geom_text(aes(label=round(Kg,digits = 0)), position=position_dodge(width=0.9), vjust=1) +
+  labs(x="Country", y = "", title="Kg per year consumption per capita by top and bottom countries", subtitle ="(meat: pig)(sum from 1961 to 2017)")
+
+top_bottom_countries %>% 
+  filter(animal == 'mutton_goat_kg') %>%
+  select(c(entity,Kg)) %>%
+  ggplot(aes(fct_reorder(entity,-Kg),Kg)) +
+  geom_col(fill = "#56B4E9") +
+  theme(axis.text.x = element_text(angle = 90),axis.text.y=element_blank(),axis.ticks=element_blank(),panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),panel.background = element_blank()) + 
+  geom_text(aes(label=round(Kg,digits = 0)), position=position_dodge(width=0.9), vjust=1) +
+  labs(x="Country", y = "", title="Kg per year consumption per capita by top and bottom countries", subtitle ="(meat: mutton and goat)(sum from 1961 to 2017)")
+
+top_bottom_countries %>% 
+  filter(animal == 'poultry_kg') %>%
+  select(c(entity,Kg)) %>%
+  ggplot(aes(fct_reorder(entity,-Kg),Kg)) +
+  geom_col(fill = "cyan2") +
+  theme(axis.text.x = element_text(angle = 90),axis.text.y=element_blank(),axis.ticks=element_blank(),panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),panel.background = element_blank()) + 
+  geom_text(aes(label=round(Kg,digits = 0)), position=position_dodge(width=0.9), vjust=1) +
+  labs(x="Country", y = "", title="Kg per year consumption per capita by top and bottom countries", subtitle ="(meat: poultry)(sum from 1961 to 2017)")
+
+top_bottom_countries %>% 
+  filter(animal == 'beef_bufallo_kg') %>%
+  select(c(entity,Kg)) %>%
+  ggplot(aes(fct_reorder(entity,-Kg),Kg)) +
+  geom_col(fill = "aquamarine") +
+  theme(axis.text.x = element_text(angle = 90),axis.text.y=element_blank(),axis.ticks=element_blank(),panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),panel.background = element_blank()) + 
+  geom_text(aes(label=round(Kg,digits = 0)), position=position_dodge(width=0.9), vjust=1) +
+  labs(x="Country", y = "", title="Kg per year consumption per capita by top and bottom countries", subtitle ="(meat: beef and bufallo)(sum from 1961 to 2017)")
+
+
+top_bottom_countries %>% 
+  filter(animal == 'other_kg') %>%
+  select(c(entity,Kg)) %>%
+  ggplot(aes(fct_reorder(entity,-Kg),Kg)) +
+  geom_col(fill = "azure2") +
+  theme(axis.text.x = element_text(angle = 90),axis.text.y=element_blank(),axis.ticks=element_blank(),panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),panel.background = element_blank()) + 
+  geom_text(aes(label=round(Kg,digits = 0)), position=position_dodge(width=0.9), vjust=1) +
+  labs(x="Country", y = "", title="Kg per year consumption per capita by top and bottom countries", subtitle ="(meat: other)(sum from 1961 to 2017)")
+
+```
+## Meat consumption by country and by meat type
+
+```{r Meat consumption by country and by meat type, echo=FALSE, fig.height=25, fig.width=15}
+pc_meat_consumption_kg_country %>% 
+  gather(animal, Kg, mutton_goat_kg:beef_bufallo_kg) %>%
+  merge(top_bottom_countries,c("entity","animal")) %>%
+  select(entity, animal, code, year,Kg.x,type) %>%
+  rename(Kg = Kg.x) %>%
+  filter(type == "max") %>%
+  distinct() %>%
+  arrange(animal,entity,year) %>%  
+  ggplot(aes(x = year, y = Kg, colour = animal)) + 
+  geom_line() +
+  facet_grid(vars(entity),vars(animal))
+```
+
+## Meat consumption per capita by top and bottom countries (stacked)
+
+```{r Kg per year consumption per capita by top and bottom countries, echo=FALSE, fig.height=8}
+ggplot(data=top_bottom_countries, aes(x=Kg, y=entity, fill=animal)) +
+  geom_bar(stat="identity",position="stack") +
+  theme(axis.text.x = element_text(angle = 90)) +
+  geom_text(aes(label = Kg), size = 2.5, hjust = 1, vjust = 0, position =  "stack")+
+  scale_x_continuous(breaks = round(seq(min(top_bottom_countries$Kg), max(top_bottom_countries$Kg), by = 500),1)) +
+  labs(y="Country",title="Consumption Kg per year per capita by top and bottom countries", subtitle ="(meat: other)(sum from 1961 to 2017)")
+```
