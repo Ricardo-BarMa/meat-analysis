@@ -350,5 +350,3 @@ ggplot(data=top_bottom_countries, aes(x=Kg, y=entity, fill=animal)) +
   scale_x_continuous(breaks = round(seq(min(top_bottom_countries$Kg), max(top_bottom_countries$Kg), by = 500),1)) +
   labs(y="Country",title="Consumption Kg per year per capita by top and bottom countries", subtitle ="(meat: other)(sum from 1961 to 2017)")
 ```
-
-
