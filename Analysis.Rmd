@@ -7,7 +7,7 @@ output:
     df_print: paged
 ---
 
-# Meat consumption data set analysis (08.04.2021)
+# Meat consumption data set analysis (08.04.2021)RM
 
 
 ```{r include=FALSE}
@@ -43,8 +43,6 @@ pc_meat_consumption_kg_country <- pc_meat_consumption_kg %>%
   filter(!is.na(code)) %>% 
   mutate_all( ~replace(., is.na(.), 0.0))
 pc_meat_consumption_kg_country
-
-
 ```
 
 ## General information of the meat consumption data frame
@@ -349,4 +347,166 @@ ggplot(data=top_bottom_countries, aes(x=Kg, y=entity, fill=animal)) +
   geom_text(aes(label = Kg), size = 2.5, hjust = 1, vjust = 0, position =  "stack")+
   scale_x_continuous(breaks = round(seq(min(top_bottom_countries$Kg), max(top_bottom_countries$Kg), by = 500),1)) +
   labs(y="Country",title="Consumption Kg per year per capita by top and bottom countries", subtitle ="(meat: other)(sum from 1961 to 2017)")
+```
+
+
+# Meat production data set analysis (08.04.2021)JA
+
+```{r load the global meat production data set, include=FALSE}
+production_df <- data.frame(read_csv("archive (5)/global-meat-production.csv"))
+```
+
+## Information after cleaning
+
+```{r}
+#Formatted the columns titles to lowercase, filtered OWID_WRL, and NA in the country_code column 
+
+v2_productiondf <- production_df <- clean_names(production_df) %>% 
+  rename(country = entity,
+         country_code = code,
+         production = `livestock_primary_meat_total_1765_production_5510_tonnes_tonnes`) %>% 
+  filter(!is.na(country_code)) %>% 
+  filter(country_code != "OWID_WRL")
+```
+
+
+## General information of the meat production data frame
+
+```{r}
+#Data summary of the data frame
+head(v2_productiondf)
+glimpse(v2_productiondf)
+```
+
+## Summary of the meat production data frame
+
+```{r}
+summary(v2_productiondf)
+```
+
+## Grouped the countries and summarized the production
+
+```{r}
+# Total production of meat
+
+p_countries <- v2_productiondf %>%
+  select(c(country, production)) %>%
+  group_by(country)%>%
+  summarise(production = sum(production)) %>% 
+  arrange(desc(production))
+```
+
+## 5 Top Countries producing meat.
+
+```{r}
+p_countries %>% 
+  select(country,production) %>% 
+  head(n=5)
+```
+
+## 5 Bottom Countries producing meat.
+
+```{r}
+p_countries %>% 
+  select(country, production) %>% 
+  tail(n=5)
+```
+
+## Bottom Countries Bar graph of production 
+
+```{r}
+# Graph showing the lowest countries producing meat from 1960-2018
+
+p_countries %>% 
+  select(country, production) %>% 
+  arrange(production) %>% 
+  head(n=5) %>% 
+  ggplot(aes(x=country, y=production, fill=production))+ 
+  geom_col()+
+  theme(axis.text.x = element_text(angle = 50, hjust=1))+
+  labs(y="Production", x= "Country",title="Bottom Countries - Global Meat Production", subtitle ="between 1960 to 2018")
+```
+
+## Top Countries Bar graph of production
+
+```{r}
+#Graph showing the top countries producing meat from 1960-2018
+
+p_countries %>% 
+  select(country,production) %>% 
+  head(n=5) %>% 
+  mutate(production = production / 1000000) %>%
+  ggplot(aes(x=country, y=production, fill=production))+
+  geom_col() + 
+  labs(y="Production in Million.", x= "Country",title="Top Countries - Global Meat Production", subtitle ="between 1960 to 2018") 
+```
+
+## Line graph of total amount of meat production
+
+```{r}
+#Line graph illustrating global total amount of meat produced from 1960-2018. 
+
+v2_productiondf %>% 
+    group_by(year) %>% 
+    summarise(production = sum(production)) %>% 
+  ggplot(aes(x=year,(y=production/1000000)))+
+  geom_line(colour="red")+
+  theme_classic()+
+  scale_x_continuous(breaks = round(seq(min(v2_productiondf$year), max(v2_productiondf$year), by = 5)))+
+  labs(y="Production in Millions", x= "Year",title="Total Global Meat Production", subtitle ="between 1960 to 2018")
+```
+
+## Line graph of top total amount of meat production
+
+```{r}
+#Line graphs illustrating top global total amount of meat produced from 1960-2018.
+
+country_max <- v2_productiondf %>%
+  select(c(country,production,year)) %>%
+  group_by(country)%>%
+  summarise(production = sum(production))%>%
+  mutate(type = 'max') %>%
+  arrange(desc(production)) %>%
+  head(5)
+
+v2_productiondf %>% 
+  select(country, year, production) %>%
+  inner_join(country_max,by="country") %>%
+  mutate( production_mio = production.x / 1000000) %>%
+  select(c(country,year,production_mio)) %>%
+ggplot(aes(x=year,y=production_mio, colour = country))+
+  geom_line(size=2)+
+  scale_x_continuous(breaks = round(seq(min(v2_productiondf$year), max(v2_productiondf$year), by = 5)))+
+  theme_classic()+
+  labs(y="Production in Millions", x= "Year",title="Top Countries of Total Global Meat Production", subtitle ="between 1960 to 2018")
+```
+
+## Line graph of China producing meat 
+
+```{r}
+#Line graph showing China as one of the top countries that mass produces meat from 1960-2018.
+
+v2_productiondf %>% 
+  filter(country == "China") %>% 
+  select(country,year,production) %>%
+  ggplot(aes(x=year, y=production/100000))+
+  geom_line(colour="green",size=1.5)+
+  scale_x_continuous(breaks = round(seq(min(v2_productiondf$year), max(v2_productiondf$year), by = 5)))+
+  theme_bw()+
+  labs(y="Production in Millions", x= "Year",title="Global Meat Production per Year from China", subtitle ="between 1960 to 2018")
+```
+
+## Line graph of Bermuda producing meat 
+
+```{r}
+#Line graph showing Bermuda as one of the bottom countries that mass produces meat from 1960-2018.
+
+v2_productiondf %>% 
+  filter(country == "Bermuda") %>% 
+  select(country,year,production) %>%
+  ggplot(aes(x=year, y=production,fill=year ))+
+  geom_line(colour="blue")+
+  scale_x_continuous(breaks = round(seq(min(v2_productiondf$year), max(v2_productiondf$year), by = 5)))+            
+  theme_classic()+
+  labs(y="Production", x= "Year",title="Global Meat Production per Year from Bermuda", subtitle ="between 1960 to 2018")
 ```

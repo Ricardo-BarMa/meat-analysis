@@ -33,13 +33,8 @@ production_df <- clean_names(production_df)
 
 production_df <- production_df %>% 
   rename(country = entity,
+         country_code = code,
          production = `livestock_primary_meat_total_1765_production_5510_tonnes_tonnes`)
-```
-
-
-```{r}
-production_df <- production_df %>% 
-  rename(country_code = code)
 ```
 
 
@@ -58,7 +53,6 @@ country_code_world <- filter(production_df, country_code == "OWID_WRL")
 
 
 ```{r}
-#continents <- production_df[is.na(production_df$country_code)]
 continents <- filter(production_df,is.na(country_code))
 ```
 
@@ -93,7 +87,7 @@ pc_meat_consumption_kg <- read_csv("docs/archive (5)/per-capita-meat-consumption
 ```
 
 ## Pipe to clean the data information of consumption by country
-```{r rename columns, filter out continents and change na values for na}
+```{r rename columns, filter out continents and change na values for na1}
 #Used the pipe operator to clean the names of the columns, rename columns, to filter na codes (df without continents) and change the na values to 0.
 pc_meat_consumption_kg_country <- pc_meat_consumption_kg %>%
   clean_names() %>%
@@ -150,12 +144,11 @@ p_countries %>%
 
 p_countries %>% 
   select(country, production) %>% 
-  arrange(production) %>% 
-  head(n=5)
+  tail(n=5)
 ```
 
 ```{r}
-#Graph showing the lowest countries that produces meat from 1960-2018
+#Graph showing the lowest countries producing meat from 1960-2018
 
 p_countries %>% 
   select(country, production) %>% 
@@ -168,14 +161,15 @@ p_countries %>%
 ```
 
 ```{r}
-#Graph showing the top countries that produces meat from 1960-2018
+#Graph showing the top countries producing meat from 1960-2018
 
 p_countries %>% 
   select(country,production) %>% 
   head(n=5) %>% 
+  mutate(production = production / 1000000) %>%
   ggplot(aes(x=country, y=production, fill=production))+
-  geom_col()+
-  labs(y="Production", x= "Country",title="Top Countries - Global Meat Production", subtitle ="between 1960 to 2018")
+  geom_col() + 
+  labs(y="Production in Mio.", x= "Country",title="Top Countries - Global Meat Production", subtitle ="between 1960 to 2018") 
 ```
 
 ```{r}
@@ -194,7 +188,7 @@ v2_productiondf %>%
   filter(year == 1961) %>%
   arrange(desc(production)) %>%
   head(n=10) %>% 
-ggplot(aes(x = country, y=production)) + 
+ggplot(aes(x = country,y=production/1000000)) + 
   geom_boxplot()+
   stat_summary(fun=mean, geom="point", shape=23, size=4)+
     theme(axis.text.x = element_text(angle = 50, hjust=1))+
@@ -218,7 +212,7 @@ v2_productiondf %>%
   filter(year == 2018) %>%
   arrange(desc(production)) %>%  
 head(n=10) %>% 
-ggplot(aes(x = country, y=production)) + 
+ggplot(aes(x = country, y=production/1000000)) + 
   geom_boxplot()+
   stat_summary(fun=mean, geom="point", shape=23, size=4)+
     theme(axis.text.x = element_text(angle = 50, hjust=1))+
@@ -279,9 +273,10 @@ ggplot(aes(x = country, y=production)) +
 v2_productiondf %>% 
     group_by(year) %>% 
     summarise(production = sum(production)) %>% 
-  ggplot(aes(x=year,y=production))+
-  geom_line()+
+  ggplot(aes(x=year,y=production/1000000))+
+  geom_line(colour="red")+
   theme_classic()+
+  scale_x_continuous(breaks = round(seq(min(v2_productiondf$year), max(v2_productiondf$year), by = 5)))
   labs(y="Production", x= "Year",title="Total Global Meat Production", subtitle ="between 1960 to 2018")
 ```
 
@@ -318,7 +313,7 @@ v2_productiondf %>%
 v2_productiondf %>% 
   filter(country == "China") %>% 
   select(country,year,production) %>%
-  ggplot(aes(x=year, y=production))+
+  ggplot(aes(x=year, y=production/100000))+
   geom_line(colour="white")+
   theme_dark()+
   labs(y="Production", x= "Year",title="Global Meat Production per Year from China", subtitle ="between 1960 to 2018")
