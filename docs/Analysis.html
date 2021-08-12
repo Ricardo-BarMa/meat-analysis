@@ -47,6 +47,100 @@
     </style>
 
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -354,8 +448,8 @@ div.tocify {
 </div>
 
 
-<div id="meat-consumption-data-set-analysis-08.04.2021" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Meat consumption data set analysis (08.04.2021)</h1>
+<div id="meat-consumption-data-set-analysis-08.04.2021rm" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Meat consumption data set analysis (08.04.2021)RM</h1>
 <div id="information-after-cleaning" class="section level2" number="1.1">
 <h2 number="1.1"><span class="header-section-number">1.1</span> Information after cleaning</h2>
 <p>(please see the cleaning link to observe the cleaning code).</p>
@@ -446,8 +540,166 @@ div.tocify {
 <h2 number="1.9"><span class="header-section-number">1.9</span> Meat consumption per capita by top and bottom countries (stacked)</h2>
 <p><img src="Analysis_files/figure-html/Kg%20per%20year%20consumption%20per%20capita%20by%20top%20and%20bottom%20countries-1.png" width="672" /></p>
 </div>
-<div id="demographic-maps-consumption" class="section level2" number="1.10">
-<h2 number="1.10"><span class="header-section-number">1.10</span> Demographic maps (consumption)</h2>
+</div>
+<div id="meat-production-data-set-analysis-08.04.2021ja" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Meat production data set analysis (08.04.2021)JA</h1>
+<div id="information-after-cleaning-1" class="section level2" number="2.1">
+<h2 number="2.1"><span class="header-section-number">2.1</span> Information after cleaning</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Formatted the columns titles to lowercase, filtered OWID_WRL, and NA in the country_code column </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="ot">&lt;-</span> production_df <span class="ot">&lt;-</span> <span class="fu">clean_names</span>(production_df) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">country =</span> entity,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">country_code =</span> code,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">production =</span> <span class="st">`</span><span class="at">livestock_primary_meat_total_1765_production_5510_tonnes_tonnes</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(country_code)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country_code <span class="sc">!=</span> <span class="st">&quot;OWID_WRL&quot;</span>)</span></code></pre></div>
+</div>
+<div id="general-information-of-the-meat-production-data-frame" class="section level2" number="2.2">
+<h2 number="2.2"><span class="header-section-number">2.2</span> General information of the meat production data frame</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Data summary of the data frame</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(v2_productiondf)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["country"],"name":[1],"type":["chr"],"align":["left"]},{"label":["country_code"],"name":[2],"type":["chr"],"align":["left"]},{"label":["year"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["production"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Afghanistan","2":"AFG","3":"1961","4":"129420","_rn_":"1"},{"1":"Afghanistan","2":"AFG","3":"1962","4":"132206","_rn_":"2"},{"1":"Afghanistan","2":"AFG","3":"1963","4":"138971","_rn_":"3"},{"1":"Afghanistan","2":"AFG","3":"1964","4":"143830","_rn_":"4"},{"1":"Afghanistan","2":"AFG","3":"1965","4":"150195","_rn_":"5"},{"1":"Afghanistan","2":"AFG","3":"1966","4":"175210","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(v2_productiondf)</span></code></pre></div>
+<pre><code>## Rows: 11,584
+## Columns: 4
+## $ country      &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afghanistan…
+## $ country_code &lt;chr&gt; &quot;AFG&quot;, &quot;AFG&quot;, &quot;AFG&quot;, &quot;AFG&quot;, &quot;AFG&quot;, &quot;AFG&quot;, &quot;AFG&quot;, &quot;AFG&quot;, &quot;…
+## $ year         &lt;dbl&gt; 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 197…
+## $ production   &lt;dbl&gt; 129420, 132206, 138971, 143830, 150195, 175210, 184232, 2…</code></pre>
+</div>
+<div id="summary-of-the-meat-production-data-frame" class="section level2" number="2.3">
+<h2 number="2.3"><span class="header-section-number">2.3</span> Summary of the meat production data frame</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(v2_productiondf)</span></code></pre></div>
+<pre><code>##    country          country_code            year        production      
+##  Length:11584       Length:11584       Min.   :1961   Min.   :       2  
+##  Class :character   Class :character   1st Qu.:1976   1st Qu.:    9556  
+##  Mode  :character   Mode  :character   Median :1991   Median :   94270  
+##                                        Mean   :1990   Mean   :  945124  
+##                                        3rd Qu.:2005   3rd Qu.:  439381  
+##                                        Max.   :2018   Max.   :88419530</code></pre>
+</div>
+<div id="grouped-the-countries-and-summarized-the-production" class="section level2" number="2.4">
+<h2 number="2.4"><span class="header-section-number">2.4</span> Grouped the countries and summarized the production</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Total production of meat</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>p_countries <span class="ot">&lt;-</span> v2_productiondf <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(country, production)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country)<span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">production =</span> <span class="fu">sum</span>(production)) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(production))</span></code></pre></div>
+</div>
+<div id="top-countries-producing-meat." class="section level2" number="2.5">
+<h2 number="2.5"><span class="header-section-number">2.5</span> 5 Top Countries producing meat.</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p_countries <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country,production) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="at">n=</span><span class="dv">5</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["country"],"name":[1],"type":["chr"],"align":["left"]},{"label":["production"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"China","2":"2280907943"},{"1":"United States","2":"1772128151"},{"1":"Brazil","2":"660064408"},{"1":"USSR","2":"445166200"},{"1":"Germany","2":"380520101"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="bottom-countries-producing-meat." class="section level2" number="2.6">
+<h2 number="2.6"><span class="header-section-number">2.6</span> 5 Bottom Countries producing meat.</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p_countries <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, production) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(<span class="at">n=</span><span class="dv">5</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["country"],"name":[1],"type":["chr"],"align":["left"]},{"label":["production"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Tuvalu","2":"5627"},{"1":"Niue","2":"4150"},{"1":"Nauru","2":"3274"},{"1":"Saint Pierre and Miquelon","2":"2777"},{"1":"Tokelau","2":"1217"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="bottom-countries-bar-graph-of-production" class="section level2" number="2.7">
+<h2 number="2.7"><span class="header-section-number">2.7</span> Bottom Countries Bar graph of production</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graph showing the lowest countries producing meat from 1960-2018</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>p_countries <span class="sc">%&gt;%</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, production) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(production) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="at">n=</span><span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>country, <span class="at">y=</span>production, <span class="at">fill=</span>production))<span class="sc">+</span> </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()<span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">50</span>, <span class="at">hjust=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Country&quot;</span>,<span class="at">title=</span><span class="st">&quot;Bottom Countries - Global Meat Production&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;between 1960 to 2018&quot;</span>)</span></code></pre></div>
+<p><img src="Analysis_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="top-countries-bar-graph-of-production" class="section level2" number="2.8">
+<h2 number="2.8"><span class="header-section-number">2.8</span> Top Countries Bar graph of production</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Graph showing the top countries producing meat from 1960-2018</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>p_countries <span class="sc">%&gt;%</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country,production) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="at">n=</span><span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">production =</span> production <span class="sc">/</span> <span class="dv">1000000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>country, <span class="at">y=</span>production, <span class="at">fill=</span>production))<span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production in Million.&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Country&quot;</span>,<span class="at">title=</span><span class="st">&quot;Top Countries - Global Meat Production&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;between 1960 to 2018&quot;</span>) </span></code></pre></div>
+<p><img src="Analysis_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="line-graph-of-total-amount-of-meat-production" class="section level2" number="2.9">
+<h2 number="2.9"><span class="header-section-number">2.9</span> Line graph of total amount of meat production</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Line graph illustrating global total amount of meat produced from 1960-2018. </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">production =</span> <span class="fu">sum</span>(production)) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year,(<span class="at">y=</span>production<span class="sc">/</span><span class="dv">1000000</span>)))<span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">round</span>(<span class="fu">seq</span>(<span class="fu">min</span>(v2_productiondf<span class="sc">$</span>year), <span class="fu">max</span>(v2_productiondf<span class="sc">$</span>year), <span class="at">by =</span> <span class="dv">5</span>)))<span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production in Millions&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Year&quot;</span>,<span class="at">title=</span><span class="st">&quot;Total Global Meat Production&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;between 1960 to 2018&quot;</span>)</span></code></pre></div>
+<p><img src="Analysis_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="line-graph-of-top-total-amount-of-meat-production" class="section level2" number="2.10">
+<h2 number="2.10"><span class="header-section-number">2.10</span> Line graph of top total amount of meat production</h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Line graphs illustrating top global total amount of meat produced from 1960-2018.</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>country_max <span class="ot">&lt;-</span> v2_productiondf <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(country,production,year)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country)<span class="sc">%&gt;%</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">production =</span> <span class="fu">sum</span>(production))<span class="sc">%&gt;%</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="st">&#39;max&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(production)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, year, production) <span class="sc">%&gt;%</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(country_max,<span class="at">by=</span><span class="st">&quot;country&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>( <span class="at">production_mio =</span> production.x <span class="sc">/</span> <span class="dv">1000000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(country,year,production_mio)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year,<span class="at">y=</span>production_mio, <span class="at">colour =</span> country))<span class="sc">+</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">round</span>(<span class="fu">seq</span>(<span class="fu">min</span>(v2_productiondf<span class="sc">$</span>year), <span class="fu">max</span>(v2_productiondf<span class="sc">$</span>year), <span class="at">by =</span> <span class="dv">5</span>)))<span class="sc">+</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production in Millions&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Year&quot;</span>,<span class="at">title=</span><span class="st">&quot;Top Countries of Total Global Meat Production&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;between 1960 to 2018&quot;</span>)</span></code></pre></div>
+<p><img src="Analysis_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+<div id="line-graph-of-china-producing-meat" class="section level2" number="2.11">
+<h2 number="2.11"><span class="header-section-number">2.11</span> Line graph of China producing meat</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Line graph showing China as one of the top countries that mass produces meat from 1960-2018.</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">&quot;China&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country,year,production) <span class="sc">%&gt;%</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>production<span class="sc">/</span><span class="dv">100000</span>))<span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">&quot;green&quot;</span>,<span class="at">size=</span><span class="fl">1.5</span>)<span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">round</span>(<span class="fu">seq</span>(<span class="fu">min</span>(v2_productiondf<span class="sc">$</span>year), <span class="fu">max</span>(v2_productiondf<span class="sc">$</span>year), <span class="at">by =</span> <span class="dv">5</span>)))<span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production in Millions&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Year&quot;</span>,<span class="at">title=</span><span class="st">&quot;Global Meat Production per Year from China&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;between 1960 to 2018&quot;</span>)</span></code></pre></div>
+<p><img src="Analysis_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="line-graph-of-bermuda-producing-meat" class="section level2" number="2.12">
+<h2 number="2.12"><span class="header-section-number">2.12</span> Line graph of Bermuda producing meat</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Line graph showing Bermuda as one of the bottom countries that mass produces meat from 1960-2018.</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">&quot;Bermuda&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country,year,production) <span class="sc">%&gt;%</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>production,<span class="at">fill=</span>year ))<span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">round</span>(<span class="fu">seq</span>(<span class="fu">min</span>(v2_productiondf<span class="sc">$</span>year), <span class="fu">max</span>(v2_productiondf<span class="sc">$</span>year), <span class="at">by =</span> <span class="dv">5</span>)))<span class="sc">+</span>            </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Year&quot;</span>,<span class="at">title=</span><span class="st">&quot;Global Meat Production per Year from Bermuda&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;between 1960 to 2018&quot;</span>)</span></code></pre></div>
+<p><img src="Analysis_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+<div id="demographic-maps-consumption" class="section level2" number="2.13">
+<h2 number="2.13"><span class="header-section-number">2.13</span> Demographic maps (consumption)</h2>
 <p>The following maps will show the mean consumption by animal type.</p>
 <p><img src="Analysis_files/figure-html/beef_bufallo%20map-1.png" width="720" /></p>
 <p><img src="Analysis_files/figure-html/poultry%20map-1.png" width="720" /> <img src="Analysis_files/figure-html/pigmeat%20map-1.png" width="720" /> <img src="Analysis_files/figure-html/mutton%20goat%20map-1.png" width="720" /></p>

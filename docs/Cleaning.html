@@ -13,7 +13,7 @@
 
 <title>Cleaning</title>
 
-<script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -447,102 +447,1046 @@ div.tocify {
 <h1 number="1"><span class="header-section-number">1</span> Preparing the information</h1>
 <div id="loading-the-libraries" class="section level2" number="1.1">
 <h2 number="1.1"><span class="header-section-number">1.1</span> Loading the libraries</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Formatted the columns titles to lowercase</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>production_df <span class="ot">&lt;-</span> <span class="fu">clean_names</span>(production_df)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Used the pipe operator to rename the columns</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>production_df <span class="ot">&lt;-</span> production_df <span class="sc">%&gt;%</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">country =</span> entity,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">country_code =</span> code,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">production =</span> <span class="st">`</span><span class="at">livestock_primary_meat_total_1765_production_5510_tonnes_tonnes</span><span class="st">`</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#filtered OWID_WRL </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#created new data frame</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>country_code_world <span class="ot">&lt;-</span> <span class="fu">filter</span>(production_df, country_code <span class="sc">==</span> <span class="st">&quot;OWID_WRL&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>continents <span class="ot">&lt;-</span> <span class="fu">filter</span>(production_df,<span class="fu">is.na</span>(country_code))</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="ot">&lt;-</span> production_df</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="ot">&lt;-</span> v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(country_code))</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="ot">&lt;-</span> v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country_code <span class="sc">!=</span> <span class="st">&quot;OWID_WRL&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>countries <span class="ot">&lt;-</span> <span class="fu">unique</span>(v2_productiondf[<span class="fu">c</span>(<span class="st">&quot;country&quot;</span>)])</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="fu">unique</span>(v2_productiondf[<span class="fu">c</span>(<span class="st">&quot;year&quot;</span>)])</span></code></pre></div>
+<p>#JA coding ends</p>
 </div>
-<div id="a-glance-to-the-data" class="section level2" number="1.2">
-<h2 number="1.2"><span class="header-section-number">1.2</span> A glance to the data</h2>
-<p>Head of data animals slaughtered</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#head of data set</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(animals_slaughtered_for_meat)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 9
-##   Entity      Code   Year Cattle   Goats Chicken Turkey  Pigs   Sheep
-##   &lt;chr&gt;       &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-## 1 Afghanistan AFG    1961 360000  940000 7000000     NA    NA 4336000
-## 2 Afghanistan AFG    1962 384000  875000 7500000     NA    NA 4355000
-## 3 Afghanistan AFG    1963 396000  810000 7700000     NA    NA 4673000
-## 4 Afghanistan AFG    1964 402000  750000 8000000     NA    NA 5010000
-## 5 Afghanistan AFG    1965 408000  875000 8500000     NA    NA 5179000
-## 6 Afghanistan AFG    1966 569600 1130000 9000000     NA    NA 5366000</code></pre>
-<p>Summary of data animals slaughtered</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Summary of data set</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(animals_slaughtered_for_meat)</span></code></pre></div>
-<pre><code>##     Entity              Code                Year          Cattle         
-##  Length:13537       Length:13537       Min.   :1961   Min.   :        0  
-##  Class :character   Class :character   1st Qu.:1976   1st Qu.:    18000  
-##  Mode  :character   Mode  :character   Median :1991   Median :   298306  
-##                                        Mean   :1990   Mean   :  5015114  
-##                                        3rd Qu.:2005   3rd Qu.:  1723775  
-##                                        Max.   :2018   Max.   :302150272  
-##                                                       NA&#39;s   :367        
-##      Goats              Chicken              Turkey         
-##  Min.   :        0   Min.   :0.000e+00   Min.   :        0  
-##  1st Qu.:    15000   1st Qu.:2.500e+06   1st Qu.:   149000  
-##  Median :   192000   Median :2.257e+07   Median :  1002000  
-##  Mean   :  6305828   Mean   :5.916e+08   Mean   : 21980054  
-##  3rd Qu.:  1450000   3rd Qu.:1.727e+08   3rd Qu.:  6879250  
-##  Max.   :479137283   Max.   :6.879e+10   Max.   :670019000  
-##  NA&#39;s   :1607        NA&#39;s   :319         NA&#39;s   :8275       
-##       Pigs               Sheep          
-##  Min.   :0.000e+00   Min.   :        0  
-##  1st Qu.:2.504e+04   1st Qu.:    18506  
-##  Median :2.910e+05   Median :   360000  
-##  Mean   :1.902e+07   Mean   :  9873200  
-##  3rd Qu.:4.141e+06   3rd Qu.:  4000000  
-##  Max.   :1.487e+09   Max.   :573806844  
-##  NA&#39;s   :1310        NA&#39;s   :1387</code></pre>
-<div id="analysing-the-na-values" class="section level3" number="1.2.1">
-<h3 number="1.2.1"><span class="header-section-number">1.2.1</span> Analysing the NA values</h3>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Observing data with NA values</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>animals_slaughtered_for_meat[<span class="fu">rowSums</span>(<span class="fu">is.na</span>(animals_slaughtered_for_meat)) <span class="sc">&gt;</span> <span class="dv">0</span>, ]</span></code></pre></div>
-<pre><code>## # A tibble: 10,676 x 9
-##    Entity      Code   Year Cattle   Goats  Chicken Turkey  Pigs   Sheep
-##    &lt;chr&gt;       &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-##  1 Afghanistan AFG    1961 360000  940000  7000000     NA    NA 4336000
-##  2 Afghanistan AFG    1962 384000  875000  7500000     NA    NA 4355000
-##  3 Afghanistan AFG    1963 396000  810000  7700000     NA    NA 4673000
-##  4 Afghanistan AFG    1964 402000  750000  8000000     NA    NA 5010000
-##  5 Afghanistan AFG    1965 408000  875000  8500000     NA    NA 5179000
-##  6 Afghanistan AFG    1966 569600 1130000  9000000     NA    NA 5366000
-##  7 Afghanistan AFG    1967 544000 1562500  9500000     NA    NA 5700000
-##  8 Afghanistan AFG    1968 595300 1562500 10000000     NA    NA 6500000
-##  9 Afghanistan AFG    1969 628300 1562500 12000000     NA    NA 6120000
-## 10 Afghanistan AFG    1970 653000 1400000 12000000     NA    NA 6300000
-## # … with 10,666 more rows</code></pre>
-<p>Observing the NA values with NA values in the code column</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Observing data with NA values in the code column</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>animals_slaughtered_for_meat[<span class="fu">is.na</span>(animals_slaughtered_for_meat<span class="sc">$</span>Code), ]</span></code></pre></div>
-<pre><code>## # A tibble: 1,919 x 9
-##    Entity Code   Year   Cattle    Goats   Chicken  Turkey    Pigs    Sheep
-##    &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
-##  1 Africa &lt;NA&gt;   1961 13234469 28149963 358405000 1425000 3835586 37209769
-##  2 Africa &lt;NA&gt;   1962 13352172 28839824 372999000 1510000 3987514 37692188
-##  3 Africa &lt;NA&gt;   1963 13446035 28479713 386697000 1585000 4070344 37941638
-##  4 Africa &lt;NA&gt;   1964 13876142 29039973 409381000 1670000 4313906 39516510
-##  5 Africa &lt;NA&gt;   1965 14132494 30173704 428228000 1756000 4536320 40664599
-##  6 Africa &lt;NA&gt;   1966 14825209 30913404 453648000 1896000 4723078 42342568
-##  7 Africa &lt;NA&gt;   1967 14970980 31614464 481029000 1917000 4803676 43350909
-##  8 Africa &lt;NA&gt;   1968 15529364 32523803 508385000 2072000 5183896 44701160
-##  9 Africa &lt;NA&gt;   1969 15883805 33160629 546194000 2233000 5552211 46860808
-## 10 Africa &lt;NA&gt;   1970 16278810 34092259 578997000 2383000 5612991 45567490
-## # … with 1,909 more rows</code></pre>
-<p>Cleaning the rows without code.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Because the code does not have codes for the continents, it is necessary to erase those rows.</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Delete columns without code (Only rows that are continents)</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>animals_slaughtered_for_meat[<span class="sc">!</span><span class="fu">is.na</span>(animals_slaughtered_for_meat<span class="sc">$</span>Code), ]</span></code></pre></div>
-<pre><code>## # A tibble: 11,618 x 9
-##    Entity      Code   Year Cattle   Goats  Chicken Turkey  Pigs   Sheep
-##    &lt;chr&gt;       &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-##  1 Afghanistan AFG    1961 360000  940000  7000000     NA    NA 4336000
-##  2 Afghanistan AFG    1962 384000  875000  7500000     NA    NA 4355000
-##  3 Afghanistan AFG    1963 396000  810000  7700000     NA    NA 4673000
-##  4 Afghanistan AFG    1964 402000  750000  8000000     NA    NA 5010000
-##  5 Afghanistan AFG    1965 408000  875000  8500000     NA    NA 5179000
-##  6 Afghanistan AFG    1966 569600 1130000  9000000     NA    NA 5366000
-##  7 Afghanistan AFG    1967 544000 1562500  9500000     NA    NA 5700000
-##  8 Afghanistan AFG    1968 595300 1562500 10000000     NA    NA 6500000
-##  9 Afghanistan AFG    1969 628300 1562500 12000000     NA    NA 6120000
-## 10 Afghanistan AFG    1970 653000 1400000 12000000     NA    NA 6300000
-## # … with 11,608 more rows</code></pre>
 </div>
+<div id="loading-data-information-from-cvs-consumption" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Loading data information from CVS (consumption)</h1>
+<div id="pipe-to-clean-the-data-information-of-consumption-by-country" class="section level2" number="2.1">
+<h2 number="2.1"><span class="header-section-number">2.1</span> Pipe to clean the data information of consumption by country</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Used the pipe operator to clean the names of the columns, rename columns, to filter na codes (df without continents) and change the na values to 0.</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>pc_meat_consumption_kg_country <span class="ot">&lt;-</span> pc_meat_consumption_kg <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">mutton_goat_kg =</span> mutton_and_goat_kilograms_per_year,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">other_kg =</span> other_meats_kilograms_per_person,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">poultry_kg =</span> poultry_kilograms_per_year,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">pigmeat_kg =</span> pigmeat_kilograms_per_year,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">beef_bufallo_kg =</span> beef_and_bufallo_kilograms_per_year) <span class="sc">%&gt;%</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(code)) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_all</span>( <span class="sc">~</span><span class="fu">replace</span>(., <span class="fu">is.na</span>(.), <span class="fl">0.0</span>))</span></code></pre></div>
+</div>
+<div id="pipe-to-clean-the-data-information-of-consumption-by-continent" class="section level2" number="2.2">
+<h2 number="2.2"><span class="header-section-number">2.2</span> Pipe to clean the data information of consumption by continent</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Used the pipe operator to clean the names of the columns, rename columns, to filter na codes (df without continents) and change the na values to 0.</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>pc_meat_consumption_kg_continent <span class="ot">&lt;-</span> pc_meat_consumption_kg <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">mutton_goat_kg =</span> mutton_and_goat_kilograms_per_year,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">other_kg =</span> other_meats_kilograms_per_person,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">poultry_kg =</span> poultry_kilograms_per_year,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">pigmeat_kg =</span> pigmeat_kilograms_per_year,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">beef_bufallo_kg =</span> beef_and_bufallo_kilograms_per_year) <span class="sc">%&gt;%</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(code))</span></code></pre></div>
+<p>#JA begins 8/4/21</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>countries <span class="ot">&lt;-</span> <span class="fu">unique</span>(v2_productiondf[<span class="fu">c</span>(<span class="st">&quot;country&quot;</span>)])</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="fu">unique</span>(v2_productiondf[<span class="fu">c</span>(<span class="st">&quot;year&quot;</span>)])</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Grouped the countries and sum the production</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>p_countries <span class="ot">&lt;-</span> v2_productiondf <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(country, production)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country)<span class="sc">%&gt;%</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">production =</span> <span class="fu">sum</span>(production)) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(production))</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#5 Top Countries produces meat.</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>p_countries <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country,production) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="at">n=</span><span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 2
+##   country       production
+##   &lt;chr&gt;              &lt;dbl&gt;
+## 1 China         2280907943
+## 2 United States 1772128151
+## 3 Brazil         660064408
+## 4 USSR           445166200
+## 5 Germany        380520101</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#5 Bottom Countries produces meat. </span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>p_countries <span class="sc">%&gt;%</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, production) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(<span class="at">n=</span><span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 2
+##   country                   production
+##   &lt;chr&gt;                          &lt;dbl&gt;
+## 1 Tuvalu                          5627
+## 2 Niue                            4150
+## 3 Nauru                           3274
+## 4 Saint Pierre and Miquelon       2777
+## 5 Tokelau                         1217</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Graph showing the lowest countries producing meat from 1960-2018</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>p_countries <span class="sc">%&gt;%</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, production) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(production) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="at">n=</span><span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>country, <span class="at">y=</span>production, <span class="at">fill=</span>production))<span class="sc">+</span> </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()<span class="sc">+</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">50</span>, <span class="at">hjust=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Country&quot;</span>,<span class="at">title=</span><span class="st">&quot;Bottom Countries - Global Meat Production&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;between 1960 to 2018&quot;</span>)</span></code></pre></div>
+<p><img src="Cleaning_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Graph showing the top countries producing meat from 1960-2018</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>p_countries <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country,production) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="at">n=</span><span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">production =</span> production <span class="sc">/</span> <span class="dv">1000000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>country, <span class="at">y=</span>production, <span class="at">fill=</span>production))<span class="sc">+</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production in Mio.&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Country&quot;</span>,<span class="at">title=</span><span class="st">&quot;Top Countries - Global Meat Production&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;between 1960 to 2018&quot;</span>) </span></code></pre></div>
+<p><img src="Cleaning_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Summary that presents the top countries that produces meat in 1961.</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, year, production) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">1961</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(production)) </span></code></pre></div>
+<pre><code>##                              country year production
+## 1                      United States 1961   16513033
+## 2                               USSR 1961    8700000
+## 3                            Germany 1961    4238328
+## 4                             France 1961    3692700
+## 5                          Argentina 1961    2604313
+## 6                              China 1961    2549889
+## 7                     United Kingdom 1961    2201619
+## 8                             Brazil 1961    2119990
+## 9                             Poland 1961    1717900
+## 10                             India 1961    1696091
+## 11                            Canada 1961    1478414
+## 12                             Italy 1961    1473150
+## 13                         Australia 1961    1400927
+## 14                            Mexico 1961    1003181
+## 15                           Denmark 1961     846250
+## 16                           Hungary 1961     764900
+## 17                        Yugoslavia 1961     759490
+## 18                    Czechoslovakia 1961     753455
+## 19                       New Zealand 1961     741698
+## 20                       Netherlands 1961     720100
+## 21                             Japan 1961     687135
+## 22                             Spain 1961     659863
+## 23                      South Africa 1961     607347
+## 24                           Romania 1961     571170
+## 25                            Turkey 1961     477924
+## 26                           Austria 1961     453845
+## 27                          Colombia 1961     442045
+## 28                          Thailand 1961     419067
+## 29                           Vietnam 1961     374975
+## 30                            Sweden 1961     367545
+## 31                          Pakistan 1961     365890
+## 32                           Uruguay 1961     353092
+## 33                         Indonesia 1961     338105
+## 34                       Philippines 1961     334016
+## 35                              Iran 1961     319710
+## 36                           Ireland 1961     311867
+## 37                           Nigeria 1961     300435
+## 38                             Egypt 1961     295960
+## 39                          Bulgaria 1961     289168
+## 40                       Switzerland 1961     259501
+## 41                            Taiwan 1961     235402
+## 42                             Chile 1961     229344
+## 43                              Peru 1961     217253
+## 44                         Venezuela 1961     209785
+## 45                              Cuba 1961     189288
+## 46                          Portugal 1961     173603
+## 47                        Bangladesh 1961     168900
+## 48                             Kenya 1961     167407
+## 49      Democratic Republic of Congo 1961     166850
+## 50                          Mongolia 1961     165500
+## 51                           Morocco 1961     164813
+## 52                          Paraguay 1961     159101
+## 53                            Greece 1961     155846
+## 54                         Melanesia 1961     150463
+## 55                           Finland 1961     144000
+## 56                        Madagascar 1961     143346
+## 57                  Papua New Guinea 1961     139309
+## 58                            Norway 1961     137659
+## 59                       Afghanistan 1961     129420
+## 60                          Tanzania 1961     113328
+## 61                           Myanmar 1961     106436
+## 62                       South Korea 1961     106296
+## 63                          Malaysia 1961     102051
+## 64                              Iraq 1961      95060
+## 65                            Uganda 1961      92123
+## 66                         Hong Kong 1961      88476
+## 67                           Bolivia 1961      88392
+## 68                       North Korea 1961      86488
+## 69                           Algeria 1961      82840
+## 70                           Ecuador 1961      81869
+## 71                           Somalia 1961      78786
+## 72                     Cote d&#39;Ivoire 1961      76866
+## 73                          Zimbabwe 1961      74235
+## 74                              Mali 1961      72691
+## 75                          Cameroon 1961      62562
+## 76                            Israel 1961      62550
+## 77                             Ghana 1961      62493
+## 78                             Nepal 1961      62451
+## 79                         Guatemala 1961      58293
+## 80                Dominican Republic 1961      53946
+## 81                             Niger 1961      52875
+## 82                           Tunisia 1961      52154
+## 83                         Singapore 1961      51891
+## 84                             Yemen 1961      46610
+## 85                             Syria 1961      45607
+## 86                            Zambia 1961      44005
+## 87                              Chad 1961      43270
+## 88                           Senegal 1961      41806
+## 89                           Lebanon 1961      40031
+## 90                             Haiti 1961      40024
+## 91                         Sri Lanka 1961      39137
+## 92                      Saudi Arabia 1961      38400
+## 93                             Timor 1961      38084
+## 94                      Burkina Faso 1961      38049
+## 95                        Mozambique 1961      37500
+## 96                        Costa Rica 1961      36750
+## 97                         Nicaragua 1961      36384
+## 98                            Angola 1961      35719
+## 99                       El Salvador 1961      33882
+## 100                      Puerto Rico 1961      33344
+## 101                       Mauritania 1961      32010
+## 102                          Namibia 1961      30295
+## 103                           Panama 1961      29507
+## 104         Central African Republic 1961      28445
+## 105                         Honduras 1961      28263
+## 106                         Cambodia 1961      27223
+## 107                          Albania 1961      25410
+## 108                         Botswana 1961      22691
+## 109                          Jamaica 1961      21149
+## 110                          Iceland 1961      19470
+## 111                             Laos 1961      19437
+## 112                            Benin 1961      19388
+## 113                            Gabon 1961      17862
+## 114                           Guinea 1961      16297
+## 115                          Lesotho 1961      16281
+## 116                            Libya 1961      14356
+## 117                             Togo 1961      13146
+## 118                           Malawi 1961      12586
+## 119                           Kuwait 1961      12375
+## 120                        Swaziland 1961      12139
+## 121                           Rwanda 1961      11896
+## 122                           Cyprus 1961      11404
+## 123                           Jordan 1961      10250
+## 124              Trinidad and Tobago 1961       9903
+## 125                            Congo 1961       9684
+## 126                          Burundi 1961       9018
+## 127                     Sierra Leone 1961       8813
+## 128                          Liberia 1961       8691
+## 129                    Guinea-Bissau 1961       7738
+## 130             United Arab Emirates 1961       7571
+## 131                          Reunion 1961       7197
+## 132                            Malta 1961       6386
+## 133                           Guyana 1961       5583
+## 134                       Martinique 1961       5406
+## 135                         Suriname 1961       4548
+## 136                            Macao 1961       4072
+## 137                    New Caledonia 1961       4066
+## 138                             Fiji 1961       3908
+## 139                           Gambia 1961       3809
+## 140                        Polynesia 1961       3686
+## 141                             Oman 1961       3215
+## 142                           Bhutan 1961       2892
+## 143                         Barbados 1961       2831
+## 144                        Mauritius 1961       2740
+## 145                         Djibouti 1961       2669
+## 146                       Guadeloupe 1961       2518
+## 147                          Vanuatu 1961       2312
+## 148             Netherlands Antilles 1961       1780
+## 149                            Qatar 1961       1769
+## 150                            Samoa 1961       1710
+## 151                           Belize 1961       1369
+## 152                           Brunei 1961       1290
+## 153                          Bahamas 1961       1261
+## 154                          Comoros 1961       1093
+## 155                 Falkland Islands 1961       1047
+## 156                      Saint Lucia 1961        988
+## 157                   Western Sahara 1961        872
+## 158                  Solomon Islands 1961        868
+## 159                    French Guiana 1961        753
+## 160                         Kiribati 1961        714
+## 161     United States Virgin Islands 1961        677
+## 162                       Cape Verde 1961        656
+## 163                 French Polynesia 1961        644
+## 164                         Dominica 1961        622
+## 165                          Grenada 1961        615
+## 166 Saint Vincent and the Grenadines 1961        515
+## 167                          Bahrain 1961        500
+## 168                             Guam 1961        478
+## 169                            Tonga 1961        474
+## 170            Saint Kitts and Nevis 1961        447
+## 171                   American Samoa 1961        413
+## 172                         Maldives 1961        400
+## 173              Antigua and Barbuda 1961        395
+## 174                       Montserrat 1961        344
+## 175            Sao Tome and Principe 1961        328
+## 176                        Greenland 1961        242
+## 177                          Bermuda 1961        239
+## 178           British Virgin Islands 1961        223
+## 179                Equatorial Guinea 1961        221
+## 180                     Cook Islands 1961        219
+## 181                       Seychelles 1961        204
+## 182                Wallis and Futuna 1961        158
+## 183        Saint Pierre and Miquelon 1961         95
+## 184                             Niue 1961         34
+## 185                           Tuvalu 1961         30
+## 186                            Nauru 1961         23
+## 187                          Tokelau 1961          6</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Boxplot presents the top countries that produces meat in 1961.</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, year, production) <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">1961</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(production)) <span class="sc">%&gt;%</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="at">n=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> country,<span class="at">y=</span>production<span class="sc">/</span><span class="dv">1000000</span>)) <span class="sc">+</span> </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun=</span>mean, <span class="at">geom=</span><span class="st">&quot;point&quot;</span>, <span class="at">shape=</span><span class="dv">23</span>, <span class="at">size=</span><span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">50</span>, <span class="at">hjust=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Country&quot;</span>,<span class="at">title=</span><span class="st">&quot;Global Meat Production&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;Top Countries in 1961&quot;</span>)</span></code></pre></div>
+<p><img src="Cleaning_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Summary that presents the top countries that produces meat in 2018.</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, year, production) <span class="sc">%&gt;%</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2018</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(production)) </span></code></pre></div>
+<pre><code>##                              country year production
+## 1                              China 2018   88156383
+## 2                      United States 2018   46832946
+## 3                             Brazil 2018   29341250
+## 4                             Russia 2018   10629378
+## 5                            Germany 2018    8188920
+## 6                              India 2018    7454329
+## 7                             Mexico 2018    7051277
+## 8                              Spain 2018    7028021
+## 9                          Argentina 2018    5930063
+## 10                            France 2018    5621700
+## 11                           Vietnam 2018    5227733
+## 12                            Canada 2018    4893195
+## 13                         Australia 2018    4658530
+## 14                            Poland 2018    4462900
+## 15                    United Kingdom 2018    4087453
+## 16                             Japan 2018    4016429
+## 17                          Pakistan 2018    3870230
+## 18                            Turkey 2018    3668362
+## 19                             Italy 2018    3667805
+## 20                       Philippines 2018    3641656
+## 21                         Indonesia 2018    3596531
+## 22                           Myanmar 2018    3528801
+## 23                      South Africa 2018    3241019
+## 24                              Iran 2018    3086281
+## 25                       Netherlands 2018    2936411
+## 26                          Thailand 2018    2932944
+## 27                          Colombia 2018    2829394
+## 28                       South Korea 2018    2498302
+## 29                           Ukraine 2018    2382786
+## 30                             Egypt 2018    2152429
+## 31                          Malaysia 2018    2113716
+## 32                              Peru 2018    2015635
+## 33                           Denmark 2018    1874459
+## 34                           Belgium 2018    1825437
+## 35                            Taiwan 2018    1531124
+## 36                             Chile 2018    1504623
+## 37                       New Zealand 2018    1452644
+## 38                           Nigeria 2018    1451207
+## 39                           Morocco 2018    1345660
+## 40                         Venezuela 2018    1294958
+## 41                        Uzbekistan 2018    1205758
+## 42                           Belarus 2018    1193215
+## 43                           Romania 2018    1151673
+## 44                           Ireland 2018    1139853
+## 45                        Kazakhstan 2018    1050620
+## 46                           Hungary 2018    1037355
+## 47                             Sudan 2018     986987
+## 48                           Bolivia 2018     914906
+## 49                           Austria 2018     910026
+## 50                             Kenya 2018     879126
+## 51                          Portugal 2018     851574
+## 52                           Ecuador 2018     825199
+## 53                           Algeria 2018     806392
+## 54                            Israel 2018     803723
+## 55                          Ethiopia 2018     788102
+## 56                      Saudi Arabia 2018     762218
+## 57                              Chad 2018     748787
+## 58                          Paraguay 2018     734282
+## 59                        Bangladesh 2018     705745
+## 60                           Uruguay 2018     662119
+## 61                            Sweden 2018     569733
+## 62                         Melanesia 2018     564126
+## 63                            Malawi 2018     561944
+## 64                          Tanzania 2018     536904
+## 65                            Uganda 2018     519318
+## 66                            Serbia 2018     514734
+## 67                    Czech Republic 2018     506029
+## 68                  Papua New Guinea 2018     501672
+## 69                       Switzerland 2018     485699
+## 70                Dominican Republic 2018     480509
+## 71                         Guatemala 2018     477118
+## 72                              Mali 2018     460730
+## 73                            Greece 2018     446972
+## 74                       South Sudan 2018     433800
+## 75                          Mongolia 2018     430466
+## 76                             Yemen 2018     424876
+## 77                             Nepal 2018     399988
+## 78                           Finland 2018     395697
+## 79                             Syria 2018     369151
+## 80                            Norway 2018     361001
+## 81                              Cuba 2018     348827
+## 82                        Madagascar 2018     347152
+## 83                       North Korea 2018     346773
+## 84                           Tunisia 2018     345521
+## 85                       Afghanistan 2018     330636
+## 86                        Azerbaijan 2018     326024
+## 87                            Panama 2018     322935
+## 88                            Zambia 2018     321329
+## 89                      Turkmenistan 2018     309941
+## 90                          Cameroon 2018     306393
+## 91                         Nicaragua 2018     292028
+## 92                             Ghana 2018     290563
+## 93                     Cote d&#39;Ivoire 2018     283403
+## 94                          Honduras 2018     283029
+## 95                        Costa Rica 2018     282275
+## 96                            Angola 2018     262490
+## 97                      Burkina Faso 2018     261402
+## 98                          Zimbabwe 2018     259091
+## 99                         Lithuania 2018     250183
+## 100     Democratic Republic of Congo 2018     246984
+## 101                           Jordan 2018     244200
+## 102                       Mozambique 2018     239705
+## 103                         Bulgaria 2018     232673
+## 104                          Croatia 2018     231042
+## 105                       Kyrgyzstan 2018     229753
+## 106                          Senegal 2018     226682
+## 107                        Sri Lanka 2018     215157
+## 108                            Libya 2018     191541
+## 109                             Iraq 2018     191101
+## 110         Central African Republic 2018     188629
+## 111                          Somalia 2018     188165
+## 112                            Niger 2018     182125
+## 113                         Cambodia 2018     180454
+## 114                          Lebanon 2018     180141
+## 115             United Arab Emirates 2018     170357
+## 116                      El Salvador 2018     162032
+## 117                             Laos 2018     156518
+## 118                         Slovakia 2018     152268
+## 119                        Hong Kong 2018     150884
+## 120                          Jamaica 2018     148165
+## 121                         Slovenia 2018     137171
+## 122                           Guinea 2018     129046
+## 123                        Singapore 2018     125342
+## 124                          Moldova 2018     122512
+## 125                       Mauritania 2018     118094
+## 126                            Haiti 2018     109239
+## 127                          Armenia 2018     108247
+## 128                           Kuwait 2018     108012
+## 129                       Tajikistan 2018     108011
+## 130                          Albania 2018      96034
+## 131                           Rwanda 2018      95278
+## 132                           Latvia 2018      91469
+## 133                        Palestine 2018      84319
+## 134           Bosnia and Herzegovina 2018      82235
+## 135                            Benin 2018      81417
+## 136                             Oman 2018      80033
+## 137                           Cyprus 2018      79496
+## 138                          Estonia 2018      74364
+## 139                          Namibia 2018      73763
+## 140                             Togo 2018      72643
+## 141                          Georgia 2018      72133
+## 142                         Botswana 2018      71616
+## 143              Trinidad and Tobago 2018      68597
+## 144                            Congo 2018      65514
+## 145                      Puerto Rico 2018      60420
+## 146                        Mauritius 2018      52213
+## 147                           Guyana 2018      49984
+## 148                     Sierra Leone 2018      47104
+## 149                          Reunion 2018      44554
+## 150                             Fiji 2018      44127
+## 151                          Eritrea 2018      40868
+## 152                            Gabon 2018      40220
+## 153                          Liberia 2018      37183
+## 154                            Timor 2018      36778
+## 155                          Iceland 2018      35731
+## 156                          Lesotho 2018      30290
+## 157                          Burundi 2018      28914
+## 158                    Guinea-Bissau 2018      28084
+## 159                        Swaziland 2018      26305
+## 160                           Brunei 2018      26127
+## 161                          Bahrain 2018      24397
+## 162                            Qatar 2018      24131
+## 163                           Belize 2018      23885
+## 164                       Luxembourg 2018      23621
+## 165                        Macedonia 2018      22255
+## 166                         Barbados 2018      19732
+## 167                         Suriname 2018      14636
+## 168                       Montenegro 2018      13282
+## 169                         Djibouti 2018      11694
+## 170                            Malta 2018      11630
+## 171                            Macao 2018      11361
+## 172                        Polynesia 2018      11217
+## 173                           Gambia 2018       9311
+## 174                          Vanuatu 2018       8180
+## 175                          Bahamas 2018       7543
+## 176                           Bhutan 2018       6770
+## 177                    New Caledonia 2018       6663
+## 178                       Guadeloupe 2018       6317
+## 179                       Cape Verde 2018       5636
+## 180                            Samoa 2018       5271
+## 181                      Saint Lucia 2018       4678
+## 182                  Solomon Islands 2018       3484
+## 183                       Martinique 2018       3078
+## 184                   Western Sahara 2018       2518
+## 185                            Tonga 2018       2405
+## 186                          Comoros 2018       2365
+## 187                 French Polynesia 2018       1947
+## 188                         Kiribati 2018       1857
+## 189             Micronesia (country) 2018       1487
+## 190                    French Guiana 2018       1452
+## 191                         Dominica 2018       1422
+## 192            Sao Tome and Principe 2018       1339
+## 193                          Grenada 2018       1194
+## 194 Saint Vincent and the Grenadines 2018       1119
+## 195                       Seychelles 2018       1040
+## 196                 Falkland Islands 2018        947
+## 197                       Montserrat 2018        938
+## 198                         Maldives 2018        870
+## 199             Netherlands Antilles 2018        732
+## 200     United States Virgin Islands 2018        732
+## 201                   Faeroe Islands 2018        637
+## 202                Equatorial Guinea 2018        626
+## 203                     Cook Islands 2018        572
+## 204                        Greenland 2018        505
+## 205              Antigua and Barbuda 2018        407
+## 206                Wallis and Futuna 2018        381
+## 207                             Guam 2018        365
+## 208                   American Samoa 2018        344
+## 209           British Virgin Islands 2018        267
+## 210            Saint Kitts and Nevis 2018        232
+## 211                          Bermuda 2018        224
+## 212                           Tuvalu 2018        182
+## 213                             Niue 2018         90
+## 214                            Nauru 2018         79
+## 215                          Tokelau 2018         24
+## 216        Saint Pierre and Miquelon 2018          2</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Boxplot presents the top countries that produces meat in 2018.</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, year, production) <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2018</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(production)) <span class="sc">%&gt;%</span>  </span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="at">n=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> country, <span class="at">y=</span>production<span class="sc">/</span><span class="dv">1000000</span>)) <span class="sc">+</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun=</span>mean, <span class="at">geom=</span><span class="st">&quot;point&quot;</span>, <span class="at">shape=</span><span class="dv">23</span>, <span class="at">size=</span><span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">50</span>, <span class="at">hjust=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Country&quot;</span>,<span class="at">title=</span><span class="st">&quot;Global Meat Production&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;Top Countries in 2018&quot;</span>)</span></code></pre></div>
+<p><img src="Cleaning_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Summary that presents the lowest countries that produces meat in 1961.</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, year, production) <span class="sc">%&gt;%</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">1961</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(production) </span></code></pre></div>
+<pre><code>##                              country year production
+## 1                            Tokelau 1961          6
+## 2                              Nauru 1961         23
+## 3                             Tuvalu 1961         30
+## 4                               Niue 1961         34
+## 5          Saint Pierre and Miquelon 1961         95
+## 6                  Wallis and Futuna 1961        158
+## 7                         Seychelles 1961        204
+## 8                       Cook Islands 1961        219
+## 9                  Equatorial Guinea 1961        221
+## 10            British Virgin Islands 1961        223
+## 11                           Bermuda 1961        239
+## 12                         Greenland 1961        242
+## 13             Sao Tome and Principe 1961        328
+## 14                        Montserrat 1961        344
+## 15               Antigua and Barbuda 1961        395
+## 16                          Maldives 1961        400
+## 17                    American Samoa 1961        413
+## 18             Saint Kitts and Nevis 1961        447
+## 19                             Tonga 1961        474
+## 20                              Guam 1961        478
+## 21                           Bahrain 1961        500
+## 22  Saint Vincent and the Grenadines 1961        515
+## 23                           Grenada 1961        615
+## 24                          Dominica 1961        622
+## 25                  French Polynesia 1961        644
+## 26                        Cape Verde 1961        656
+## 27      United States Virgin Islands 1961        677
+## 28                          Kiribati 1961        714
+## 29                     French Guiana 1961        753
+## 30                   Solomon Islands 1961        868
+## 31                    Western Sahara 1961        872
+## 32                       Saint Lucia 1961        988
+## 33                  Falkland Islands 1961       1047
+## 34                           Comoros 1961       1093
+## 35                           Bahamas 1961       1261
+## 36                            Brunei 1961       1290
+## 37                            Belize 1961       1369
+## 38                             Samoa 1961       1710
+## 39                             Qatar 1961       1769
+## 40              Netherlands Antilles 1961       1780
+## 41                           Vanuatu 1961       2312
+## 42                        Guadeloupe 1961       2518
+## 43                          Djibouti 1961       2669
+## 44                         Mauritius 1961       2740
+## 45                          Barbados 1961       2831
+## 46                            Bhutan 1961       2892
+## 47                              Oman 1961       3215
+## 48                         Polynesia 1961       3686
+## 49                            Gambia 1961       3809
+## 50                              Fiji 1961       3908
+## 51                     New Caledonia 1961       4066
+## 52                             Macao 1961       4072
+## 53                          Suriname 1961       4548
+## 54                        Martinique 1961       5406
+## 55                            Guyana 1961       5583
+## 56                             Malta 1961       6386
+## 57                           Reunion 1961       7197
+## 58              United Arab Emirates 1961       7571
+## 59                     Guinea-Bissau 1961       7738
+## 60                           Liberia 1961       8691
+## 61                      Sierra Leone 1961       8813
+## 62                           Burundi 1961       9018
+## 63                             Congo 1961       9684
+## 64               Trinidad and Tobago 1961       9903
+## 65                            Jordan 1961      10250
+## 66                            Cyprus 1961      11404
+## 67                            Rwanda 1961      11896
+## 68                         Swaziland 1961      12139
+## 69                            Kuwait 1961      12375
+## 70                            Malawi 1961      12586
+## 71                              Togo 1961      13146
+## 72                             Libya 1961      14356
+## 73                           Lesotho 1961      16281
+## 74                            Guinea 1961      16297
+## 75                             Gabon 1961      17862
+## 76                             Benin 1961      19388
+## 77                              Laos 1961      19437
+## 78                           Iceland 1961      19470
+## 79                           Jamaica 1961      21149
+## 80                          Botswana 1961      22691
+## 81                           Albania 1961      25410
+## 82                          Cambodia 1961      27223
+## 83                          Honduras 1961      28263
+## 84          Central African Republic 1961      28445
+## 85                            Panama 1961      29507
+## 86                           Namibia 1961      30295
+## 87                        Mauritania 1961      32010
+## 88                       Puerto Rico 1961      33344
+## 89                       El Salvador 1961      33882
+## 90                            Angola 1961      35719
+## 91                         Nicaragua 1961      36384
+## 92                        Costa Rica 1961      36750
+## 93                        Mozambique 1961      37500
+## 94                      Burkina Faso 1961      38049
+## 95                             Timor 1961      38084
+## 96                      Saudi Arabia 1961      38400
+## 97                         Sri Lanka 1961      39137
+## 98                             Haiti 1961      40024
+## 99                           Lebanon 1961      40031
+## 100                          Senegal 1961      41806
+## 101                             Chad 1961      43270
+## 102                           Zambia 1961      44005
+## 103                            Syria 1961      45607
+## 104                            Yemen 1961      46610
+## 105                        Singapore 1961      51891
+## 106                          Tunisia 1961      52154
+## 107                            Niger 1961      52875
+## 108               Dominican Republic 1961      53946
+## 109                        Guatemala 1961      58293
+## 110                            Nepal 1961      62451
+## 111                            Ghana 1961      62493
+## 112                           Israel 1961      62550
+## 113                         Cameroon 1961      62562
+## 114                             Mali 1961      72691
+## 115                         Zimbabwe 1961      74235
+## 116                    Cote d&#39;Ivoire 1961      76866
+## 117                          Somalia 1961      78786
+## 118                          Ecuador 1961      81869
+## 119                          Algeria 1961      82840
+## 120                      North Korea 1961      86488
+## 121                          Bolivia 1961      88392
+## 122                        Hong Kong 1961      88476
+## 123                           Uganda 1961      92123
+## 124                             Iraq 1961      95060
+## 125                         Malaysia 1961     102051
+## 126                      South Korea 1961     106296
+## 127                          Myanmar 1961     106436
+## 128                         Tanzania 1961     113328
+## 129                      Afghanistan 1961     129420
+## 130                           Norway 1961     137659
+## 131                 Papua New Guinea 1961     139309
+## 132                       Madagascar 1961     143346
+## 133                          Finland 1961     144000
+## 134                        Melanesia 1961     150463
+## 135                           Greece 1961     155846
+## 136                         Paraguay 1961     159101
+## 137                          Morocco 1961     164813
+## 138                         Mongolia 1961     165500
+## 139     Democratic Republic of Congo 1961     166850
+## 140                            Kenya 1961     167407
+## 141                       Bangladesh 1961     168900
+## 142                         Portugal 1961     173603
+## 143                             Cuba 1961     189288
+## 144                        Venezuela 1961     209785
+## 145                             Peru 1961     217253
+## 146                            Chile 1961     229344
+## 147                           Taiwan 1961     235402
+## 148                      Switzerland 1961     259501
+## 149                         Bulgaria 1961     289168
+## 150                            Egypt 1961     295960
+## 151                          Nigeria 1961     300435
+## 152                          Ireland 1961     311867
+## 153                             Iran 1961     319710
+## 154                      Philippines 1961     334016
+## 155                        Indonesia 1961     338105
+## 156                          Uruguay 1961     353092
+## 157                         Pakistan 1961     365890
+## 158                           Sweden 1961     367545
+## 159                          Vietnam 1961     374975
+## 160                         Thailand 1961     419067
+## 161                         Colombia 1961     442045
+## 162                          Austria 1961     453845
+## 163                           Turkey 1961     477924
+## 164                          Romania 1961     571170
+## 165                     South Africa 1961     607347
+## 166                            Spain 1961     659863
+## 167                            Japan 1961     687135
+## 168                      Netherlands 1961     720100
+## 169                      New Zealand 1961     741698
+## 170                   Czechoslovakia 1961     753455
+## 171                       Yugoslavia 1961     759490
+## 172                          Hungary 1961     764900
+## 173                          Denmark 1961     846250
+## 174                           Mexico 1961    1003181
+## 175                        Australia 1961    1400927
+## 176                            Italy 1961    1473150
+## 177                           Canada 1961    1478414
+## 178                            India 1961    1696091
+## 179                           Poland 1961    1717900
+## 180                           Brazil 1961    2119990
+## 181                   United Kingdom 1961    2201619
+## 182                            China 1961    2549889
+## 183                        Argentina 1961    2604313
+## 184                           France 1961    3692700
+## 185                          Germany 1961    4238328
+## 186                             USSR 1961    8700000
+## 187                    United States 1961   16513033</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Boxplot presents the lowest countries that produces meat in 1961.</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, year, production) <span class="sc">%&gt;%</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">1961</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(production) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="at">n=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> country, <span class="at">y=</span>production)) <span class="sc">+</span> </span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun=</span>mean, <span class="at">geom=</span><span class="st">&quot;point&quot;</span>, <span class="at">shape=</span><span class="dv">23</span>, <span class="at">size=</span><span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">50</span>, <span class="at">hjust=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Country&quot;</span>,<span class="at">title=</span><span class="st">&quot; Global Meat Production&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;Bottom Countries in 1961&quot;</span>)</span></code></pre></div>
+<p><img src="Cleaning_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Summary that presents the lowest countries that produces meat in 2018.</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, year, production) <span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2018</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(production) </span></code></pre></div>
+<pre><code>##                              country year production
+## 1          Saint Pierre and Miquelon 2018          2
+## 2                            Tokelau 2018         24
+## 3                              Nauru 2018         79
+## 4                               Niue 2018         90
+## 5                             Tuvalu 2018        182
+## 6                            Bermuda 2018        224
+## 7              Saint Kitts and Nevis 2018        232
+## 8             British Virgin Islands 2018        267
+## 9                     American Samoa 2018        344
+## 10                              Guam 2018        365
+## 11                 Wallis and Futuna 2018        381
+## 12               Antigua and Barbuda 2018        407
+## 13                         Greenland 2018        505
+## 14                      Cook Islands 2018        572
+## 15                 Equatorial Guinea 2018        626
+## 16                    Faeroe Islands 2018        637
+## 17              Netherlands Antilles 2018        732
+## 18      United States Virgin Islands 2018        732
+## 19                          Maldives 2018        870
+## 20                        Montserrat 2018        938
+## 21                  Falkland Islands 2018        947
+## 22                        Seychelles 2018       1040
+## 23  Saint Vincent and the Grenadines 2018       1119
+## 24                           Grenada 2018       1194
+## 25             Sao Tome and Principe 2018       1339
+## 26                          Dominica 2018       1422
+## 27                     French Guiana 2018       1452
+## 28              Micronesia (country) 2018       1487
+## 29                          Kiribati 2018       1857
+## 30                  French Polynesia 2018       1947
+## 31                           Comoros 2018       2365
+## 32                             Tonga 2018       2405
+## 33                    Western Sahara 2018       2518
+## 34                        Martinique 2018       3078
+## 35                   Solomon Islands 2018       3484
+## 36                       Saint Lucia 2018       4678
+## 37                             Samoa 2018       5271
+## 38                        Cape Verde 2018       5636
+## 39                        Guadeloupe 2018       6317
+## 40                     New Caledonia 2018       6663
+## 41                            Bhutan 2018       6770
+## 42                           Bahamas 2018       7543
+## 43                           Vanuatu 2018       8180
+## 44                            Gambia 2018       9311
+## 45                         Polynesia 2018      11217
+## 46                             Macao 2018      11361
+## 47                             Malta 2018      11630
+## 48                          Djibouti 2018      11694
+## 49                        Montenegro 2018      13282
+## 50                          Suriname 2018      14636
+## 51                          Barbados 2018      19732
+## 52                         Macedonia 2018      22255
+## 53                        Luxembourg 2018      23621
+## 54                            Belize 2018      23885
+## 55                             Qatar 2018      24131
+## 56                           Bahrain 2018      24397
+## 57                            Brunei 2018      26127
+## 58                         Swaziland 2018      26305
+## 59                     Guinea-Bissau 2018      28084
+## 60                           Burundi 2018      28914
+## 61                           Lesotho 2018      30290
+## 62                           Iceland 2018      35731
+## 63                             Timor 2018      36778
+## 64                           Liberia 2018      37183
+## 65                             Gabon 2018      40220
+## 66                           Eritrea 2018      40868
+## 67                              Fiji 2018      44127
+## 68                           Reunion 2018      44554
+## 69                      Sierra Leone 2018      47104
+## 70                            Guyana 2018      49984
+## 71                         Mauritius 2018      52213
+## 72                       Puerto Rico 2018      60420
+## 73                             Congo 2018      65514
+## 74               Trinidad and Tobago 2018      68597
+## 75                          Botswana 2018      71616
+## 76                           Georgia 2018      72133
+## 77                              Togo 2018      72643
+## 78                           Namibia 2018      73763
+## 79                           Estonia 2018      74364
+## 80                            Cyprus 2018      79496
+## 81                              Oman 2018      80033
+## 82                             Benin 2018      81417
+## 83            Bosnia and Herzegovina 2018      82235
+## 84                         Palestine 2018      84319
+## 85                            Latvia 2018      91469
+## 86                            Rwanda 2018      95278
+## 87                           Albania 2018      96034
+## 88                        Tajikistan 2018     108011
+## 89                            Kuwait 2018     108012
+## 90                           Armenia 2018     108247
+## 91                             Haiti 2018     109239
+## 92                        Mauritania 2018     118094
+## 93                           Moldova 2018     122512
+## 94                         Singapore 2018     125342
+## 95                            Guinea 2018     129046
+## 96                          Slovenia 2018     137171
+## 97                           Jamaica 2018     148165
+## 98                         Hong Kong 2018     150884
+## 99                          Slovakia 2018     152268
+## 100                             Laos 2018     156518
+## 101                      El Salvador 2018     162032
+## 102             United Arab Emirates 2018     170357
+## 103                          Lebanon 2018     180141
+## 104                         Cambodia 2018     180454
+## 105                            Niger 2018     182125
+## 106                          Somalia 2018     188165
+## 107         Central African Republic 2018     188629
+## 108                             Iraq 2018     191101
+## 109                            Libya 2018     191541
+## 110                        Sri Lanka 2018     215157
+## 111                          Senegal 2018     226682
+## 112                       Kyrgyzstan 2018     229753
+## 113                          Croatia 2018     231042
+## 114                         Bulgaria 2018     232673
+## 115                       Mozambique 2018     239705
+## 116                           Jordan 2018     244200
+## 117     Democratic Republic of Congo 2018     246984
+## 118                        Lithuania 2018     250183
+## 119                         Zimbabwe 2018     259091
+## 120                     Burkina Faso 2018     261402
+## 121                           Angola 2018     262490
+## 122                       Costa Rica 2018     282275
+## 123                         Honduras 2018     283029
+## 124                    Cote d&#39;Ivoire 2018     283403
+## 125                            Ghana 2018     290563
+## 126                        Nicaragua 2018     292028
+## 127                         Cameroon 2018     306393
+## 128                     Turkmenistan 2018     309941
+## 129                           Zambia 2018     321329
+## 130                           Panama 2018     322935
+## 131                       Azerbaijan 2018     326024
+## 132                      Afghanistan 2018     330636
+## 133                          Tunisia 2018     345521
+## 134                      North Korea 2018     346773
+## 135                       Madagascar 2018     347152
+## 136                             Cuba 2018     348827
+## 137                           Norway 2018     361001
+## 138                            Syria 2018     369151
+## 139                          Finland 2018     395697
+## 140                            Nepal 2018     399988
+## 141                            Yemen 2018     424876
+## 142                         Mongolia 2018     430466
+## 143                      South Sudan 2018     433800
+## 144                           Greece 2018     446972
+## 145                             Mali 2018     460730
+## 146                        Guatemala 2018     477118
+## 147               Dominican Republic 2018     480509
+## 148                      Switzerland 2018     485699
+## 149                 Papua New Guinea 2018     501672
+## 150                   Czech Republic 2018     506029
+## 151                           Serbia 2018     514734
+## 152                           Uganda 2018     519318
+## 153                         Tanzania 2018     536904
+## 154                           Malawi 2018     561944
+## 155                        Melanesia 2018     564126
+## 156                           Sweden 2018     569733
+## 157                          Uruguay 2018     662119
+## 158                       Bangladesh 2018     705745
+## 159                         Paraguay 2018     734282
+## 160                             Chad 2018     748787
+## 161                     Saudi Arabia 2018     762218
+## 162                         Ethiopia 2018     788102
+## 163                           Israel 2018     803723
+## 164                          Algeria 2018     806392
+## 165                          Ecuador 2018     825199
+## 166                         Portugal 2018     851574
+## 167                            Kenya 2018     879126
+## 168                          Austria 2018     910026
+## 169                          Bolivia 2018     914906
+## 170                            Sudan 2018     986987
+## 171                          Hungary 2018    1037355
+## 172                       Kazakhstan 2018    1050620
+## 173                          Ireland 2018    1139853
+## 174                          Romania 2018    1151673
+## 175                          Belarus 2018    1193215
+## 176                       Uzbekistan 2018    1205758
+## 177                        Venezuela 2018    1294958
+## 178                          Morocco 2018    1345660
+## 179                          Nigeria 2018    1451207
+## 180                      New Zealand 2018    1452644
+## 181                            Chile 2018    1504623
+## 182                           Taiwan 2018    1531124
+## 183                          Belgium 2018    1825437
+## 184                          Denmark 2018    1874459
+## 185                             Peru 2018    2015635
+## 186                         Malaysia 2018    2113716
+## 187                            Egypt 2018    2152429
+## 188                          Ukraine 2018    2382786
+## 189                      South Korea 2018    2498302
+## 190                         Colombia 2018    2829394
+## 191                         Thailand 2018    2932944
+## 192                      Netherlands 2018    2936411
+## 193                             Iran 2018    3086281
+## 194                     South Africa 2018    3241019
+## 195                          Myanmar 2018    3528801
+## 196                        Indonesia 2018    3596531
+## 197                      Philippines 2018    3641656
+## 198                            Italy 2018    3667805
+## 199                           Turkey 2018    3668362
+## 200                         Pakistan 2018    3870230
+## 201                            Japan 2018    4016429
+## 202                   United Kingdom 2018    4087453
+## 203                           Poland 2018    4462900
+## 204                        Australia 2018    4658530
+## 205                           Canada 2018    4893195
+## 206                          Vietnam 2018    5227733
+## 207                           France 2018    5621700
+## 208                        Argentina 2018    5930063
+## 209                            Spain 2018    7028021
+## 210                           Mexico 2018    7051277
+## 211                            India 2018    7454329
+## 212                          Germany 2018    8188920
+## 213                           Russia 2018   10629378
+## 214                           Brazil 2018   29341250
+## 215                    United States 2018   46832946
+## 216                            China 2018   88156383</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Boxplot presents the lowest countries that produces meat in 2018.</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, year, production) <span class="sc">%&gt;%</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2018</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(production) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="at">n=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> country, <span class="at">y=</span>production)) <span class="sc">+</span> </span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun=</span>mean, <span class="at">geom=</span><span class="st">&quot;point&quot;</span>, <span class="at">shape=</span><span class="dv">23</span>, <span class="at">size=</span><span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">50</span>, <span class="at">hjust=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Country&quot;</span>,<span class="at">title=</span><span class="st">&quot;Total Global Meat Production&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;Bottom Countries in the 2018&quot;</span>)</span></code></pre></div>
+<p><img src="Cleaning_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Line graph illustrating global total amount of meat produced from 1960-2018. </span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">production =</span> <span class="fu">sum</span>(production)) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year,<span class="at">y=</span>production<span class="sc">/</span><span class="dv">1000000</span>))<span class="sc">+</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>()<span class="sc">+</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">round</span>(<span class="fu">seq</span>(<span class="fu">min</span>(v2_productiondf<span class="sc">$</span>year), <span class="fu">max</span>(v2_productiondf<span class="sc">$</span>year), <span class="at">by =</span> <span class="dv">5</span>)))</span></code></pre></div>
+<p><img src="Cleaning_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Year&quot;</span>,<span class="at">title=</span><span class="st">&quot;Total Global Meat Production&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;between 1960 to 2018&quot;</span>)</span></code></pre></div>
+<pre><code>## $y
+## [1] &quot;Production&quot;
+## 
+## $x
+## [1] &quot;Year&quot;
+## 
+## $title
+## [1] &quot;Total Global Meat Production&quot;
+## 
+## $subtitle
+## [1] &quot;between 1960 to 2018&quot;
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;labels&quot;</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Line graph illustrating global total amount of meat produced from 2008-2018.</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">production =</span> <span class="fu">sum</span>(production)) <span class="sc">%&gt;%</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(production)) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="at">n=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>production))<span class="sc">+</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Year&quot;</span>,<span class="at">title=</span><span class="st">&quot;Total Global Meat Production&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;between 2008 to 2018&quot;</span>)</span></code></pre></div>
+<p><img src="Cleaning_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Line graph illustrating global total amount of meat produced from 1960-1970.</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">production =</span> <span class="fu">sum</span>(production)) <span class="sc">%&gt;%</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>((production)) <span class="sc">%&gt;%</span> </span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="at">n=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>production))<span class="sc">+</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">&quot;orange&quot;</span>)<span class="sc">+</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_gray</span>()<span class="sc">+</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Year&quot;</span>,<span class="at">title=</span><span class="st">&quot;Total Global Meat Production&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;between 1960 to 1970&quot;</span>)</span></code></pre></div>
+<p><img src="Cleaning_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Line graph showing China as one of the top countries that mass produces meat from 1960-2018.</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">&quot;China&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country,year,production) <span class="sc">%&gt;%</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>production<span class="sc">/</span><span class="dv">100000</span>))<span class="sc">+</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_dark</span>()<span class="sc">+</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Year&quot;</span>,<span class="at">title=</span><span class="st">&quot;Global Meat Production per Year from China&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;between 1960 to 2018&quot;</span>)</span></code></pre></div>
+<p><img src="Cleaning_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Line graph showing Bermuda as one of the bottom countries that mass produces meat from 1960-2018.</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>v2_productiondf <span class="sc">%&gt;%</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">&quot;Bermuda&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country,year,production) <span class="sc">%&gt;%</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>production,<span class="at">fill=</span>year ))<span class="sc">+</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_dark</span>()<span class="sc">+</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Production&quot;</span>, <span class="at">x=</span> <span class="st">&quot;Year&quot;</span>,<span class="at">title=</span><span class="st">&quot;Global Meat Production per Year from Bermuda&quot;</span>, <span class="at">subtitle =</span><span class="st">&quot;between 1960 to 2018&quot;</span>)</span></code></pre></div>
+<p><img src="Cleaning_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 </div>
 </div>
 
@@ -584,6 +1528,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')

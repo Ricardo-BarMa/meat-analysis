@@ -7,12 +7,11 @@ output:
     df_print: paged
 ---
 
-# Meat consumption data set analysis (08.04.2021)
+# Meat consumption data set analysis (08.04.2021)RM
 
 
 ```{r include=FALSE}
 ## Loading the libraries
-
 library(readr)
 library(dplyr)
 library(ggplot2)
@@ -43,8 +42,6 @@ pc_meat_consumption_kg_country <- pc_meat_consumption_kg %>%
   filter(!is.na(code)) %>% 
   mutate_all( ~replace(., is.na(.), 0.0))
 pc_meat_consumption_kg_country
-
-
 ```
 
 ## General information of the meat consumption data frame
@@ -74,7 +71,6 @@ pc_meat_consumption_kg_country %>%
   ggplot(aes(x = animals, y = Kg, fill = animals)) + 
   geom_boxplot() + 
   labs(title ='Box plot of consumtion by animals')
-
 pc_meat_consumption_kg_country %>% 
   gather(animals, Kg, mutton_goat_kg:beef_bufallo_kg) %>%
   ggplot(aes(x = animals, y = Kg, fill = animals)) + 
@@ -91,7 +87,6 @@ As it was perceived in the previous plots, there are some outliers in the data f
 The following table shows the top and the bottom countries by animals.
 
 ```{r Transformation to get the top and bottom 5 countries by animals., echo=FALSE, paged.print=TRUE}
-
 #information grouped by country and getting the 
 #maximum
 mutton_max <- pc_meat_consumption_kg_country %>%
@@ -103,7 +98,6 @@ mutton_max <- pc_meat_consumption_kg_country %>%
   mutate(animal = 'mutton_goat_kg') %>%
   mutate(type = 'max') %>%
   slice_max(Kg,n=5)
-
 beef_max <- pc_meat_consumption_kg_country %>%
   select(c(entity, beef_bufallo_kg)) %>%
   rename(Kg = beef_bufallo_kg)%>%
@@ -112,7 +106,6 @@ beef_max <- pc_meat_consumption_kg_country %>%
   mutate(animal = 'beef_bufallo_kg') %>%
   mutate(type = 'max') %>%
   slice_max(Kg,n=5)
-
 other_max <- pc_meat_consumption_kg_country %>%
   select(c(entity, other_kg)) %>%
   rename(Kg = other_kg)%>%
@@ -121,7 +114,6 @@ other_max <- pc_meat_consumption_kg_country %>%
   mutate(animal = 'other_kg') %>%
   mutate(type = 'max') %>%
   slice_max(Kg,n=5)
-
 poultry_max <- pc_meat_consumption_kg_country %>%
   select(c(entity, poultry_kg)) %>%
   rename(Kg = poultry_kg)%>%
@@ -130,8 +122,6 @@ poultry_max <- pc_meat_consumption_kg_country %>%
   mutate(animal = 'poultry_kg') %>%
   mutate(type = 'max') %>%
   slice_max(Kg,n=5)
-
-
 pig_max <- pc_meat_consumption_kg_country %>%
   select(c(entity, pigmeat_kg)) %>%
   rename(Kg = pigmeat_kg)%>%
@@ -140,8 +130,6 @@ pig_max <- pc_meat_consumption_kg_country %>%
   mutate(animal = 'pigmeat_kg') %>%
   mutate(type = 'max') %>%
   slice_max(Kg,n=5)
-
-
 #information grouped by country and getting the 
 #minimum
 mutton_min <- pc_meat_consumption_kg_country %>%
@@ -152,7 +140,6 @@ mutton_min <- pc_meat_consumption_kg_country %>%
   mutate(animal = 'mutton_goat_kg') %>%
   mutate(type = 'min') %>%
   slice_min(Kg,n=5)
-
 beef_min <- pc_meat_consumption_kg_country %>%
   select(c(entity, beef_bufallo_kg)) %>%
   rename(Kg = beef_bufallo_kg)%>%
@@ -161,7 +148,6 @@ beef_min <- pc_meat_consumption_kg_country %>%
   mutate(animal = 'beef_bufallo_kg') %>%
   mutate(type = 'min') %>%
   slice_min(Kg,n=5)
-
 other_min <- pc_meat_consumption_kg_country %>%
   select(c(entity, other_kg)) %>%
   rename(Kg = other_kg)%>%
@@ -170,7 +156,6 @@ other_min <- pc_meat_consumption_kg_country %>%
   mutate(animal = 'other_kg') %>%
   mutate(type = 'min') %>%
   slice_min(Kg,n=5)
-
 poultry_min <- pc_meat_consumption_kg_country %>%
   select(c(entity, poultry_kg)) %>%
   rename(Kg = poultry_kg)%>%
@@ -179,7 +164,6 @@ poultry_min <- pc_meat_consumption_kg_country %>%
   mutate(animal = 'poultry_kg') %>%
   mutate(type = 'min') %>%
   slice_min(Kg,n=5)
-
 pig_min <- pc_meat_consumption_kg_country %>%
   select(c(entity, pigmeat_kg)) %>%
   rename(Kg = pigmeat_kg)%>%
@@ -188,7 +172,6 @@ pig_min <- pc_meat_consumption_kg_country %>%
   mutate(animal = 'pigmeat_kg') %>%
   mutate(type = 'min') %>%
   slice_min(Kg,n=5)
-
 top_bottom_countries <-  rbind(mutton_max, pig_max, beef_max, poultry_max, other_max,
                                mutton_min, pig_min, beef_min, poultry_min, other_min)
 top_bottom_countries
@@ -281,7 +264,6 @@ top_bottom_countries %>%
         panel.grid.minor = element_blank(),panel.background = element_blank()) + 
   geom_text(aes(label=round(Kg,digits = 0)), position=position_dodge(width=0.9), vjust=1) +
   labs(x="Country", y = "", title="Kg per year consumption per capita by top and bottom countries", subtitle ="(meat: pig)(sum from 1961 to 2017)")
-
 top_bottom_countries %>% 
   filter(animal == 'mutton_goat_kg') %>%
   select(c(entity,Kg)) %>%
@@ -291,7 +273,6 @@ top_bottom_countries %>%
         panel.grid.minor = element_blank(),panel.background = element_blank()) + 
   geom_text(aes(label=round(Kg,digits = 0)), position=position_dodge(width=0.9), vjust=1) +
   labs(x="Country", y = "", title="Kg per year consumption per capita by top and bottom countries", subtitle ="(meat: mutton and goat)(sum from 1961 to 2017)")
-
 top_bottom_countries %>% 
   filter(animal == 'poultry_kg') %>%
   select(c(entity,Kg)) %>%
@@ -301,7 +282,6 @@ top_bottom_countries %>%
         panel.grid.minor = element_blank(),panel.background = element_blank()) + 
   geom_text(aes(label=round(Kg,digits = 0)), position=position_dodge(width=0.9), vjust=1) +
   labs(x="Country", y = "", title="Kg per year consumption per capita by top and bottom countries", subtitle ="(meat: poultry)(sum from 1961 to 2017)")
-
 top_bottom_countries %>% 
   filter(animal == 'beef_bufallo_kg') %>%
   select(c(entity,Kg)) %>%
@@ -311,8 +291,6 @@ top_bottom_countries %>%
         panel.grid.minor = element_blank(),panel.background = element_blank()) + 
   geom_text(aes(label=round(Kg,digits = 0)), position=position_dodge(width=0.9), vjust=1) +
   labs(x="Country", y = "", title="Kg per year consumption per capita by top and bottom countries", subtitle ="(meat: beef and bufallo)(sum from 1961 to 2017)")
-
-
 top_bottom_countries %>% 
   filter(animal == 'other_kg') %>%
   select(c(entity,Kg)) %>%
@@ -322,7 +300,6 @@ top_bottom_countries %>%
         panel.grid.minor = element_blank(),panel.background = element_blank()) + 
   geom_text(aes(label=round(Kg,digits = 0)), position=position_dodge(width=0.9), vjust=1) +
   labs(x="Country", y = "", title="Kg per year consumption per capita by top and bottom countries", subtitle ="(meat: other)(sum from 1961 to 2017)")
-
 ```
 ## Meat consumption by country and by meat type
 
@@ -349,4 +326,298 @@ ggplot(data=top_bottom_countries, aes(x=Kg, y=entity, fill=animal)) +
   geom_text(aes(label = Kg), size = 2.5, hjust = 1, vjust = 0, position =  "stack")+
   scale_x_continuous(breaks = round(seq(min(top_bottom_countries$Kg), max(top_bottom_countries$Kg), by = 500),1)) +
   labs(y="Country",title="Consumption Kg per year per capita by top and bottom countries", subtitle ="(meat: other)(sum from 1961 to 2017)")
+```
+
+
+# Meat production data set analysis (08.04.2021)JA
+
+```{r load the global meat production data set, include=FALSE}
+production_df <- data.frame(read_csv("archive (5)/global-meat-production.csv"))
+```
+
+## Information after cleaning
+
+```{r}
+#Formatted the columns titles to lowercase, filtered OWID_WRL, and NA in the country_code column 
+v2_productiondf <- production_df <- clean_names(production_df) %>% 
+  rename(country = entity,
+         country_code = code,
+         production = `livestock_primary_meat_total_1765_production_5510_tonnes_tonnes`) %>% 
+  filter(!is.na(country_code)) %>% 
+  filter(country_code != "OWID_WRL")
+```
+
+
+## General information of the meat production data frame
+
+```{r}
+#Data summary of the data frame
+head(v2_productiondf)
+glimpse(v2_productiondf)
+```
+
+## Summary of the meat production data frame
+
+```{r}
+summary(v2_productiondf)
+```
+
+## Grouped the countries and summarized the production
+
+```{r}
+# Total production of meat
+p_countries <- v2_productiondf %>%
+  select(c(country, production)) %>%
+  group_by(country)%>%
+  summarise(production = sum(production)) %>% 
+  arrange(desc(production))
+```
+
+## 5 Top Countries producing meat.
+
+```{r}
+p_countries %>% 
+  select(country,production) %>% 
+  head(n=5)
+```
+
+## 5 Bottom Countries producing meat.
+
+```{r}
+p_countries %>% 
+  select(country, production) %>% 
+  tail(n=5)
+```
+
+## Bottom Countries Bar graph of production 
+
+```{r}
+# Graph showing the lowest countries producing meat from 1960-2018
+p_countries %>% 
+  select(country, production) %>% 
+  arrange(production) %>% 
+  head(n=5) %>% 
+  ggplot(aes(x=country, y=production, fill=production))+ 
+  geom_col()+
+  theme(axis.text.x = element_text(angle = 50, hjust=1))+
+  labs(y="Production", x= "Country",title="Bottom Countries - Global Meat Production", subtitle ="between 1960 to 2018")
+```
+
+## Top Countries Bar graph of production
+
+```{r}
+#Graph showing the top countries producing meat from 1960-2018
+p_countries %>% 
+  select(country,production) %>% 
+  head(n=5) %>% 
+  mutate(production = production / 1000000) %>%
+  ggplot(aes(x=country, y=production, fill=production))+
+  geom_col() + 
+  labs(y="Production in Million.", x= "Country",title="Top Countries - Global Meat Production", subtitle ="between 1960 to 2018") 
+```
+
+## Line graph of total amount of meat production
+
+```{r}
+#Line graph illustrating global total amount of meat produced from 1960-2018. 
+v2_productiondf %>% 
+    group_by(year) %>% 
+    summarise(production = sum(production)) %>% 
+  ggplot(aes(x=year,(y=production/1000000)))+
+  geom_line(colour="red")+
+  theme_classic()+
+  scale_x_continuous(breaks = round(seq(min(v2_productiondf$year), max(v2_productiondf$year), by = 5)))+
+  labs(y="Production in Millions", x= "Year",title="Total Global Meat Production", subtitle ="between 1960 to 2018")
+```
+
+## Line graph of top total amount of meat production
+
+```{r}
+#Line graphs illustrating top global total amount of meat produced from 1960-2018.
+country_max <- v2_productiondf %>%
+  select(c(country,production,year)) %>%
+  group_by(country)%>%
+  summarise(production = sum(production))%>%
+  mutate(type = 'max') %>%
+  arrange(desc(production)) %>%
+  head(5)
+v2_productiondf %>% 
+  select(country, year, production) %>%
+  inner_join(country_max,by="country") %>%
+  mutate( production_mio = production.x / 1000000) %>%
+  select(c(country,year,production_mio)) %>%
+ggplot(aes(x=year,y=production_mio, colour = country))+
+  geom_line(size=2)+
+  scale_x_continuous(breaks = round(seq(min(v2_productiondf$year), max(v2_productiondf$year), by = 5)))+
+  theme_classic()+
+  labs(y="Production in Millions", x= "Year",title="Top Countries of Total Global Meat Production", subtitle ="between 1960 to 2018")
+```
+
+## Line graph of China producing meat 
+
+```{r}
+#Line graph showing China as one of the top countries that mass produces meat from 1960-2018.
+v2_productiondf %>% 
+  filter(country == "China") %>% 
+  select(country,year,production) %>%
+  ggplot(aes(x=year, y=production/100000))+
+  geom_line(colour="green",size=1.5)+
+  scale_x_continuous(breaks = round(seq(min(v2_productiondf$year), max(v2_productiondf$year), by = 5)))+
+  theme_bw()+
+  labs(y="Production in Millions", x= "Year",title="Global Meat Production per Year from China", subtitle ="between 1960 to 2018")
+```
+
+## Line graph of Bermuda producing meat 
+
+```{r}
+#Line graph showing Bermuda as one of the bottom countries that mass produces meat from 1960-2018.
+v2_productiondf %>% 
+  filter(country == "Bermuda") %>% 
+  select(country,year,production) %>%
+  ggplot(aes(x=year, y=production,fill=year ))+
+  geom_line(colour="blue")+
+  scale_x_continuous(breaks = round(seq(min(v2_productiondf$year), max(v2_productiondf$year), by = 5)))+            
+  theme_classic()+
+  labs(y="Production", x= "Year",title="Global Meat Production per Year from Bermuda", subtitle ="between 1960 to 2018")
+```
+
+## Demographic maps (consumption)
+The following maps will show the mean consumption by animal type.
+
+```{r load map long & lat, include=FALSE}
+
+#load geographic coordinates
+
+library(maps)
+
+world_map <- map_data("world" )
+world_map
+```
+```{r change some country names for the map, include=FALSE}
+#Change names
+pc_meat_consumption_kg_country[pc_meat_consumption_kg_country == "United States"] <- "USA"
+pc_meat_consumption_kg_country[pc_meat_consumption_kg_country == "Congo"] <- "Republic of Congo"
+pc_meat_consumption_kg_country[pc_meat_consumption_kg_country == "Antigua and Barbuda"] <- "Antigua"
+pc_meat_consumption_kg_country[pc_meat_consumption_kg_country == "Cote d'Ivoire"] <- "Ivory Coast"
+pc_meat_consumption_kg_country[pc_meat_consumption_kg_country == "Trinidad and Tobago"] <- "Tobago"
+pc_meat_consumption_kg_country[pc_meat_consumption_kg_country == "United Kingdom"] <- "UK"
+```
+
+
+```{r transpose and mean of animal-consumption, include=FALSE}
+#Transpose information and create a new df with mean of Kg consumption
+poultry <- pc_meat_consumption_kg_country%>%
+  rename(Kg = poultry_kg)%>%
+  group_by(entity)%>%
+  summarise(Kg_mean = mean(Kg))%>%
+  mutate(animal = 'poultry_kg')
+
+mutton_goat <- pc_meat_consumption_kg_country%>%
+  rename(Kg = mutton_goat_kg)%>%
+  group_by(entity)%>%
+  summarise(Kg_mean = mean(Kg))%>%
+  mutate(animal = 'mutton_goat_kg')
+
+other <- pc_meat_consumption_kg_country%>%
+  rename(Kg = other_kg)%>%
+  group_by(entity)%>%
+  summarise(Kg_mean = mean(Kg))%>%
+  mutate(animal = 'other_kg')
+
+pigmeat <- pc_meat_consumption_kg_country%>%
+  rename(Kg = pigmeat_kg)%>%
+  group_by(entity)%>%
+  summarise(Kg_mean = mean(Kg))%>%
+  mutate(animal = 'pigmeat_kg')
+
+beef_bufallo <- pc_meat_consumption_kg_country%>%
+  rename(Kg = beef_bufallo_kg)%>%
+  group_by(entity)%>%
+  summarise(Kg_mean = mean(Kg))%>%
+  mutate(animal = 'beef_bufallo_kg')
+
+map <-  rbind(poultry, mutton_goat, other, pigmeat, beef_bufallo)
+
+map
+
+```
+
+
+```{r beef_bufallo map, echo=FALSE, fig.height=5, fig.width=7.5}
+map %>%
+  subset(animal == 'beef_bufallo_kg')%>%
+  rename(region = entity) %>%
+  subset(region != 'world') %>%
+  left_join(world_map, by = "region") %>%
+ggplot(aes(x = long, y = lat, group = group)) + 
+  geom_polygon(data = world_map, fill="lightgray", colour = "white")+
+  geom_polygon(aes(fill = Kg_mean)) +
+  scale_fill_viridis_c(option = "C")+
+  labs(x = NULL, 
+         y = NULL, 
+         title = "Consumption demographics", 
+         subtitle = "Average consumption Kg, from 1961 to 2018 (beef & bufallo)")
+```
+
+```{r poultry map, echo=FALSE, fig.height=5, fig.width=7.5}
+map %>%
+  subset(animal == 'poultry_kg')%>%
+  rename(region = entity) %>%
+  subset(region != 'world') %>%
+  left_join(world_map, by = "region") %>%
+ggplot(aes(x = long, y = lat, group = group)) + 
+  geom_polygon(data = world_map, fill="lightgray", colour = "white")+
+  geom_polygon(aes(fill = Kg_mean)) +
+  scale_fill_viridis_c(option = "C")+
+  labs(x = NULL, 
+         y = NULL, 
+         title = "Consumption demographics", 
+         subtitle = "Average consumption Kg, from 1961 to 2018 (poultry)")
+```
+```{r pigmeat map, echo=FALSE, fig.height=5, fig.width=7.5}
+map %>%
+  subset(animal == 'pigmeat_kg')%>%
+  rename(region = entity) %>%
+  subset(region != 'world') %>%
+  left_join(world_map, by = "region") %>%
+ggplot(aes(x = long, y = lat, group = group)) + 
+  geom_polygon(data = world_map, fill="lightgray", colour = "white")+
+  geom_polygon(aes(fill = Kg_mean)) +
+  scale_fill_viridis_c(option = "C")+
+  labs(x = NULL, 
+         y = NULL, 
+         title = "Consumption demographics", 
+         subtitle = "Average consumption Kg, from 1961 to 2018 (pigmeat)")
+```
+```{r mutton goat map, echo=FALSE, fig.height=5, fig.width=7.5}
+map %>%
+  subset(animal == 'mutton_goat_kg')%>%
+  rename(region = entity) %>%
+  subset(region != 'world') %>%
+  left_join(world_map, by = "region") %>%
+ggplot(aes(x = long, y = lat, group = group)) + 
+  geom_polygon(data = world_map, fill="lightgray", colour = "white")+
+  geom_polygon(aes(fill = Kg_mean)) +
+  scale_fill_viridis_c(option = "C")+
+  labs(x = NULL, 
+         y = NULL, 
+         title = "Consumption demographics", 
+         subtitle = "Average consumption Kg, from 1961 to 2018 (mutton & goat)")
+```
+
+
+```{r other map, echo=FALSE, fig.height=5, fig.width=7.5}
+map %>%
+  subset(animal == 'other_kg')%>%
+  rename(region = entity) %>%
+  subset(region != 'world') %>%
+  left_join(world_map, by = "region") %>%
+ggplot(aes(x = long, y = lat, group = group)) + 
+  geom_polygon(data = world_map, fill="lightgray", colour = "white")+
+  geom_polygon(aes(fill = Kg_mean)) +
+  scale_fill_viridis_c(option = "C")+
+  labs(x = NULL, 
+         y = NULL, 
+         title = "Consumption demographics", 
+         subtitle = "Average consumption Kg, from 1961 to 2018 (other)")
 ```
