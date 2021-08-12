@@ -93,7 +93,7 @@ pc_meat_consumption_kg <- read_csv("docs/archive (5)/per-capita-meat-consumption
 ```
 
 ## Pipe to clean the data information of consumption by country
-```{r rename columns, filter out continents and change na values for na}
+```{r rename columns, filter out continents and change na values for na 1}
 #Used the pipe operator to clean the names of the columns, rename columns, to filter na codes (df without continents) and change the na values to 0.
 pc_meat_consumption_kg_country <- pc_meat_consumption_kg %>%
   clean_names() %>%
